@@ -1,0 +1,15 @@
+[b]v1.1.1[/b]
+- fixed a minor lua error caused by using nil values in mathematical expressions upon zoning in
+
+[b]v1.1.0: Major update of the addon![/b]
+
+- Added support for low level hunters or hunters who do not have Aimedshot available. Now, if the player has Arcane shot and not aimed shot, the top bar displays suggestions for casting Arcane shot instead of showing one Multi-shot bar or no bar at all. (Because Arcane shot has no cast time, this essential serves as a cooldown reminder for Arcane shot)
+
+- Multi-shot bar shows a green translucent bar when Multi-shot is going to be off cooldown and not suggested for optimal Autoshot clipping.
+
+- Major revision of the back-end code. Please do not hesitate to report any bug/issues after updating to this version.
+
+- Major improvements of the underlying mathematical model. The suggestions should feel less erratic in time and be more representative of optimal Autoshot clippings.
+
+[b]v1.0.2[/b]
+- Fixed an issue when cooldown reduction abilities would not correctly reflect the usability of Aimedshot or Multi-shot (such as [b]Renataki's Charm of Beasts[/b] currently)

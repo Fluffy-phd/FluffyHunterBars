@@ -1,0 +1,34 @@
+## Interface: 20501
+## Title: |cAA27AE60Fluffy Hunter Bars|r
+
+## Notes: Tells the player whenever it is benefical to cast certain abilities in order to maximize single target dps
+
+
+## Author: Fluffydork of Nethergarde Keep (EU)
+## Version: 2.0.5
+
+## X-Category: Combat
+
+## X-Curse-Project-ID: 470317
+
+## SavedVariablesPerCharacter: FluffyDBPC
+
+config.lua
+
+auxiliary.lua
+variables.lua
+player_stats.lua
+
+
+abilities.lua
+recommendation_calculation.lua
+
+talent_handler.lua
+ammo_handler.lua
+equipment_handler.lua
+
+ui.elems.lua
+ui.core.lua
+#ui.config.lua
+core.lua
+
