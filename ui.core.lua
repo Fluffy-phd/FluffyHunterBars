@@ -278,8 +278,10 @@ local function update_autoshot_spark(idx, t, fluffyBar_len, fluffyBar_len_second
             spark_bar:Hide();
         elseif active_spark_position_seconds > fluffyBar_len_seconds then
             -- print(active_spark_position_seconds - fluffyBar_len_seconds);
-            local movement_start_seconds = max(0, active_spark_position_seconds - fluffy.movement_spark_interval);
-            local pixelw_auto_window = (fluffyBar_len_seconds - movement_start_seconds) * fluffyBar_len / fluffyBar_len_seconds;
+            local movement_start_seconds = active_spark_position_seconds - fluffy.movement_spark_interval;
+            local movement_end_seconds = fluffyBar_len_seconds;
+            local pixelw_auto_window = (movement_end_seconds - movement_start_seconds) * fluffyBar_len / fluffyBar_len_seconds;
+            -- print(pixelw_auto_window);
             -- local empty_space = (active_spark_position_seconds - fluffyBar_len_seconds) * fluffyBar_len / fluffyBar_len_seconds;
 
             spark_bar:SetPoint('LEFT', fluffyBar_len + 3, shift_y - 1);
@@ -287,8 +289,10 @@ local function update_autoshot_spark(idx, t, fluffyBar_len, fluffyBar_len_second
             spark_bar:Show();
 
             movement_bar:SetWidth(pixelw_auto_window);
-            movement_bar:SetPoint('RIGHT', 0, shift_y);
+            movement_bar:SetPoint('LEFT', -pixelw_auto_window, shift_y);
             movement_bar:Show();
+
+            -- movement_bar:Hide();
         else
             local movement_start_seconds = max(0, active_spark_position_seconds - fluffy.movement_spark_interval);
             local pixelw_auto_window = max(0, ((active_spark_position_seconds - movement_start_seconds) * fluffyBar_len / fluffyBar_len_seconds));

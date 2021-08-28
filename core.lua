@@ -278,6 +278,8 @@ fluffy_frame_items:SetScript("OnEvent",
     end
 );
 
+fluffy.feign_death_active = 0;
+
 local fluffy_frame_buffs = CreateFrame("Frame");
 fluffy_frame_buffs:RegisterEvent("UNIT_AURA");
 fluffy_frame_buffs:SetScript("OnEvent",
@@ -287,18 +289,28 @@ fluffy_frame_buffs:SetScript("OnEvent",
 		end
 
 		local haste_table = fluffy.haste_buffs_table;
+		local fd_found = 0;
 		for i=1, 40 do
 			local _, _, _, _, _, etime, _, _, _, id = UnitBuff("player",i);
 
-			if haste_table[id] ~= nil then
-				if id == fluffy.haste_id_berserking then
-					if etime > haste_table[id][1] + 0.5 then
-						local player_health_ratio = UnitHealth("player") / UnitHealthMax("player");
-						haste_table[id][2] = 1.1 + 0.2 * (1 - (math.max(0.4, player_health_ratio)))/0.6;
+			if id == 5384 then
+				fd_found = 1;
+				fluffy.feign_death_active = 1;
+			else
+				if haste_table[id] ~= nil then
+					if id == fluffy.haste_id_berserking then
+						if etime > haste_table[id][1] + 0.5 then
+							local player_health_ratio = UnitHealth("player") / UnitHealthMax("player");
+							haste_table[id][2] = 1.1 + 0.2 * (1 - (math.max(0.4, player_health_ratio)))/0.6;
+						end
 					end
+	
+					haste_table[id][1] = etime;
 				end
+			end
 
-				haste_table[id][1] = etime;
+			if fd_found == 0 then
+				fluffy.feign_death_active = 0;
 			end
 		end
     end

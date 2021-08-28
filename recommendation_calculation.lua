@@ -878,8 +878,17 @@ function analyze_game_state(window_len)
         fluffy.cast_finishes = max(fluffy.cast_finishes, endTime * 0.001);
     end
 
+    if fluffy.feign_death_active == 1 then
+		fluffy.ability_autoshot["fired"] = t;
+		fluffy.ability_autoshot["next_start"] = t + fluffy.ability_autoshot["cdb"](t);
+
+		local mainSpeed, _ = UnitAttackSpeed("player");
+		fluffy.ability_meleestrike["fired"] = t;
+		fluffy.ability_meleestrike["next_start"] = t + mainSpeed;
+    end
+
     local autoshot_shift = fluffy.ability_autoshot["next_start"];
-    if autoshot_shift < t - 1.0*(fluffy.ability_autoshot["cast"](autoshot_shift) + fluffy.ability_autoshot["cdb"](autoshot_shift)) then
+    if autoshot_shift < t - 1.2*fluffy.ability_autoshot["cast"](t) then
         autoshot_shift = t;
     end
     autoshot_shift = max(fluffy.cast_finishes, max(autoshot_shift, fluffy.autoshot_delay));

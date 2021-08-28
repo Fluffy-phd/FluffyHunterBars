@@ -808,7 +808,8 @@ local function update_spell_interrupted(spellID)
 	-- end
 end
 
-local function update_melee_swings(log_message)
+local last_auto_start, last_auto_finish;
+local function parse_combat_event(log_message)
 
 	-- print(time() - log_message[1]);
 	-- local t = (time() - log_message[1]) + GetTime();
@@ -817,7 +818,8 @@ local function update_melee_swings(log_message)
 	local src = log_message[4];
 
     if src == fluffy.player_id then
-		-- print(unpack(log_message));
+		
+
         if event == "SWING_DAMAGE" or event == 'SWING_MISSED' then
 			local offhand_hit = log_message[21];
             if not offhand_hit then
@@ -834,6 +836,22 @@ local function update_melee_swings(log_message)
 				fluffy.ability_meleestrike["fired"] = t;
 				fluffy.ability_meleestrike["next_start"] = t + mainSpeed;
 			end
+		elseif event == "SPELL_CAST_START" and log_message[12] == fluffy.spell_id_auto then
+			last_auto_start =  GetTime();
+			last_auto_finish = last_auto_start + fluffy.ability_autoshot["cast"](last_auto_start);
+
+			-- local speed, _, _, _, _, _ = UnitRangedDamage("player");
+			fluffy.ability_autoshot["fired"] = last_auto_finish;
+			fluffy.ability_autoshot["next_start"] = last_auto_start;
+			fluffy.ability_autoshot["next_fired"] = last_auto_finish;
+	
+		elseif event == "SPELL_CAST_SUCCESS" and log_message[12] == fluffy.spell_id_auto then
+			-- print(GetTime() - last_auto_finish);
+		elseif event == "SPELL_CAST_FAILED" and log_message[12] == fluffy.spell_id_auto then
+			last_auto_start =  0;
+			last_auto_finish = 0;
+		-- elseif log_message[12] == fluffy.spell_id_auto then
+		-- 	print("AS[" .. log_message[2] .. "]: " .. log_message[1]);
 		end
     end
 end
@@ -868,7 +886,7 @@ fluffy_frame:SetScript("OnEvent",
 			update_spell_data();
 
 		elseif event == "COMBAT_LOG_EVENT_UNFILTERED" then
-			update_melee_swings({CombatLogGetCurrentEventInfo()});
+			parse_combat_event({CombatLogGetCurrentEventInfo()});
 
 		-- elseif event == "START_AUTOREPEAT_SPELL" then
 		-- 	local t = GetTime();
