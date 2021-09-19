@@ -623,16 +623,22 @@ function create_ui()
 end
 
 local frame_combat_hidden = CreateFrame("Frame","CombatTracker", UIParent);
+local combat_status_last_update = 0;
 frame_combat_hidden:SetScript("OnUpdate", 
 
     function(self, elapsed)
 
-        local t = GetTime();
-        if (fluffy.update_frequency_val * (t - fluffy.last_update) < 2) then
+        if fluffy.show_only_in_combat ~= 1 then
             return;
         end
+
+        local t = GetTime();
+        if (fluffy.update_frequency_val * (t - combat_status_last_update) < 1) then
+            return;
+        end
+        combat_status_last_update = t;
     
-        if fluffy.show_only_in_combat == 1 and not UnitAffectingCombat("player") then
+        if not UnitAffectingCombat("player") then
             FluffyBar:Hide();
         else
             FluffyBar:Show();
