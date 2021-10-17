@@ -287,8 +287,27 @@ fluffy_frame_buffs:SetScript("OnEvent",
 		if arg1 ~= "player" then 
 			return; 
 		end
-
 		local haste_table = fluffy.haste_buffs_table;
+
+
+		local tmp_tab = {};
+
+		for i=1, 40 do
+			local _, _, _, _, _, etime, _, _, _, id = UnitBuff("player",i);
+			if id ~= nil then
+				tmp_tab[id] = etime;
+			end
+		end
+		
+		-- losing buffs prematurely
+		local tcurr = GetTime();
+		for k, etime in pairs(haste_table) do
+			if etime[1] > tcurr and tmp_tab[k] == nil then
+				haste_table[k][1] = 0;
+			end
+		end
+
+		-- gaining buffs
 		local fd_found = 0;
 		for i=1, 40 do
 			local _, _, _, _, _, etime, _, _, _, id = UnitBuff("player",i);

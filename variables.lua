@@ -52,14 +52,6 @@ fluffy.haste_buffs_table[fluffy.haste_id_crowd_pummeler]                        
 fluffy.haste_buffs_table[fluffy.haste_id_jackhammer]                            = {0, 300, true, 3};
 fluffy.haste_buffs_table[fluffy.haste_id_drums1]                                = {0, 80, true, 3};
 
-fluffy.buff_expiry_quick_shots = 0;
-fluffy.buff_expiry_rapid_fire = 0;
-fluffy.buff_expiry_berserking = 0;
-
-fluffy.buff_value_quick_shots = 1.0;
-fluffy.buff_value_rapid_fire = 1.4;
-fluffy.buff_value_berserking = 1.1;
-
 -- bonuses from talents
 fluffy.ranged_crit_modifier = 0;
 fluffy.ranged_modifier = 1;
