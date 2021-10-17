@@ -76,38 +76,73 @@ local hit_conversion_table = {
 };
 
 -- RANGED HASTE MODIFIER GAINED SOLELY FROM BUFFS
-local function get_haste_mod_buffs(t)
+local function get_haste_mod_ranged(t)
+	local haste = 1/1.15;
+	local haste_rating = 0;
+	local player_level = UnitLevel("player");
+	local haste_rating_base = GetCombatRating(CR_HASTE_RANGED);
+
+	local t_now = GetTime();
+
+	for _, T in pairs(fluffy.haste_buffs_table) do
+		local is_ranged = (T[4] >= 2);
+
+		if is_ranged then
+			local expiration_time = T[1];
+			local haste_value = T[2];
+			local is_rating = T[3];
+
+			if expiration_time >= t then
+				if is_rating then
+					haste_rating = haste_rating +  haste_value;
+				else
+					haste = haste / haste_value;
+				end
+			end
+	
+			if expiration_time >= t_now and is_rating then
+				haste_rating_base = haste_rating_base - haste_value;
+			end
+		end
+
+	end
+	-- return  haste / (1 + (haste_rating) / hit_conversion_table[player_level]);
+	return  haste / (1 + 0.01 * (haste_rating_base + haste_rating) / hit_conversion_table[player_level]);
+end
+
+-- MELEE HASTE MODIFIER
+local function get_haste_mod_melee(t)
 	local haste = 1;
 	local haste_rating = 0;
 	local player_level = UnitLevel("player");
+	local haste_rating_base = GetCombatRating(CR_HASTE_MELEE);
+	
+	local t_now = GetTime();
 
 	for _, T in pairs(fluffy.haste_buffs_table) do
-		local expiration_time = T[1];
-		local haste_value = T[2];
-		local is_rating = T[3];
+		local is_melee = ((T[4] % 2) == 1);
 
-		if expiration_time >= t then
-			if is_rating then
-				haste_rating = haste_rating +  haste_value;
-			else
-				haste = haste / haste_value;
+		if is_melee then
+			local expiration_time = T[1];
+			local haste_value = T[2];
+			local is_rating = T[3];
+
+			if expiration_time >= t then
+				if is_rating then
+					haste_rating = haste_rating +  haste_value;
+				else
+					haste = haste / haste_value;
+				end
+			end
+	
+			if expiration_time >= t_now and is_rating then
+				haste_rating_base = haste_rating_base - haste_value;
 			end
 		end
+
 	end
 	
-	return haste / (1 + haste_rating / hit_conversion_table[player_level]);
-end
-
--- RANGED HASTE MODIFIER GAINED FROM GEAR
-local function get_haste_mod_gear(t)
-    local speed, _, _, _, _, _ = UnitRangedDamage("player");
-	return (speed / fluffy.ranged_base_speed) / get_haste_mod_buffs(t);
-end
-
--- MELEE HASTE MODIFIER GAINED FROM GEAR
-local function get_haste_mod_melee(t)
-	local mainSpeed, _ = UnitAttackSpeed("player");
-	return mainSpeed / fluffy.main_hand_base_speed;
+	return  haste / (1 + 0.01 * (haste_rating_base + haste_rating) / hit_conversion_table[player_level]);
 end
 
 local function getRangedHitCoefficients()
@@ -399,11 +434,11 @@ fluffy.ability_meleestrike["gcd"] = 0;
 
 -- base cooldowns of abilities
 fluffy.ability_autoshot["cdb"] = function(t)
-	return (fluffy.ranged_base_speed - 0.5) * get_haste_mod_gear(GetTime()) * get_haste_mod_buffs(t);
+	return (fluffy.ranged_base_speed - 0.5) * get_haste_mod_ranged(t);
 end
 fluffy.ability_aimedshot["cdb"] = function(t)
 	if fluffy.client_version > 11307 then
-		return 6 + fluffy.ranged_base_speed * get_haste_mod_gear(GetTime()) * get_haste_mod_buffs(t);
+		return 6 + fluffy.ranged_base_speed * get_haste_mod_ranged(t);
 	else
 		return 6;
 	end	
@@ -415,7 +450,7 @@ fluffy.ability_multishot["cdb"] = function(t)
 	return 10;
 end
 fluffy.ability_steadyshot["cdb"] = function(t)
-	return 1.5 - 1.5 * get_haste_mod_gear(GetTime()) * get_haste_mod_buffs(t);
+	return 1.5 - 1.5 * get_haste_mod_ranged(t);
 end
 fluffy.ability_raptorstrike["cdb"] = function(t)
 	return 6.2;
@@ -426,23 +461,23 @@ end
 
 -- cast times
 fluffy.ability_autoshot["cast"] = function(t)
-	return 0.5 * get_haste_mod_gear(GetTime()) * get_haste_mod_buffs(t);
+	return 0.5 * get_haste_mod_ranged(t);
 end
 fluffy.ability_aimedshot["cast"] = function(t)
 	if fluffy.client_version > 11307 then
-		return 3.0 * get_haste_mod_gear(GetTime()) * get_haste_mod_buffs(t);
+		return 3.0 * get_haste_mod_ranged(t);
 	else
-		return 3.5 * get_haste_mod_gear(GetTime()) * get_haste_mod_buffs(t);
+		return 3.5 * get_haste_mod_ranged(t);
 	end	
 end
 fluffy.ability_arcaneshot["cast"] = function(t)
 	return 0.0;
 end
 fluffy.ability_multishot["cast"] = function(t)
-	return 0.5 * get_haste_mod_gear(GetTime()) * get_haste_mod_buffs(t);
+	return 0.5 * get_haste_mod_ranged(t);
 end
 fluffy.ability_steadyshot["cast"] = function(t)
-	return 1.5 * get_haste_mod_gear(GetTime()) * get_haste_mod_buffs(t);
+	return 1.5 * get_haste_mod_ranged(t);
 end
 fluffy.ability_raptorstrike["cast"] = function(t)
 	if fluffy.client_version > 11307 then
@@ -808,7 +843,12 @@ local function update_spell_interrupted(spellID)
 	-- end
 end
 
-local last_auto_start, last_auto_finish;
+local current_auto_start = 0;
+local current_auto_finish = 0;
+local prev_auto_start = 0;
+local prev_auto_finish = 0;
+local next_auto_start = 0;
+local next_auto_finish = 0;
 local function parse_combat_event(log_message)
 
 	-- print(time() - log_message[1]);
@@ -837,19 +877,57 @@ local function parse_combat_event(log_message)
 				fluffy.ability_meleestrike["next_start"] = t + mainSpeed;
 			end
 		elseif event == "SPELL_CAST_START" and log_message[12] == fluffy.spell_id_auto then
-			last_auto_start =  GetTime();
-			last_auto_finish = last_auto_start + fluffy.ability_autoshot["cast"](last_auto_start);
 
-			-- local speed, _, _, _, _, _ = UnitRangedDamage("player");
-			fluffy.ability_autoshot["fired"] = last_auto_finish;
-			fluffy.ability_autoshot["next_start"] = last_auto_start;
-			fluffy.ability_autoshot["next_fired"] = last_auto_finish;
+			current_auto_start =  GetTime();
+			current_auto_finish = current_auto_start + 0.5 * get_haste_mod_ranged(current_auto_start);
+
+			fluffy.ability_autoshot["fired"] = current_auto_finish;
+
+
+			-- prev_auto_start = next_auto_start;
+			-- prev_auto_finish = next_auto_finish;
+
+			-- local curr_speed = UnitRangedDamage("player");
+			-- local curr_haste = curr_speed / fluffy.ranged_base_speed;
+
+			-- current_auto_start =  GetTime();
+			-- -- current_auto_finish = current_auto_start + fluffy.ability_autoshot["cast"](current_auto_start);
+			-- current_auto_finish = current_auto_start + 0.5 * curr_haste;
+
+			-- next_auto_start =  current_auto_start + curr_speed;
+			-- next_auto_finish = current_auto_finish + curr_speed;
+
+
+			-- -- local speed, _, _, _, _, _ = UnitRangedDamage("player");
+			-- fluffy.ability_autoshot["fired"] = current_auto_finish;
+			-- fluffy.ability_autoshot["next_start"] = current_auto_start;
+			-- fluffy.ability_autoshot["next_fired"] = current_auto_finish;
 	
 		elseif event == "SPELL_CAST_SUCCESS" and log_message[12] == fluffy.spell_id_auto then
-			-- print(GetTime() - last_auto_finish);
+			prev_auto_start = next_auto_start;
+			prev_auto_finish = next_auto_finish;
+
+			current_auto_finish = GetTime();
+
+			local curr_haste = get_haste_mod_ranged(current_auto_finish);
+			local curr_speed = fluffy.ranged_base_speed * curr_haste;
+
+			current_auto_start =  current_auto_finish -  0.5 * curr_haste;
+
+			next_auto_start =  current_auto_start + curr_speed;
+			next_auto_finish = current_auto_finish + curr_speed;
+
+
+			-- local speed, _, _, _, _, _ = UnitRangedDamage("player");
+			fluffy.ability_autoshot["fired"] = current_auto_finish;
+			fluffy.ability_autoshot["next_start"] = next_auto_start;
+			fluffy.ability_autoshot["next_fired"] = next_auto_finish;
+			
+			print("auto: [" .. current_auto_start - prev_auto_start .. "] [" .. current_auto_finish - prev_auto_finish.. "]" );
+
 		elseif event == "SPELL_CAST_FAILED" and log_message[12] == fluffy.spell_id_auto then
-			last_auto_start =  0;
-			last_auto_finish = 0;
+			-- current_auto_start =  0;
+			-- current_auto_finish = 0;
 		-- elseif log_message[12] == fluffy.spell_id_auto then
 		-- 	print("AS[" .. log_message[2] .. "]: " .. log_message[1]);
 		end

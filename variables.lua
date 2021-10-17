@@ -29,20 +29,28 @@ fluffy.haste_id_hammer_haste                            = 21165;
 fluffy.haste_id_dragonspine_trophy                      = 34774;
 fluffy.haste_id_crowd_pummeler                          = 13494;
 fluffy.haste_id_jackhammer                              = 13533;
+fluffy.haste_id_drums1                                  = 35476;
 
--- fluffy.haste_buffs_table[buff_id] = {expiration_time, value, is_rating}
+
+-- fluffy.haste_buffs_table[buff_id] = {expiration_time, value, is_rating, type}
+-- type:
+-- 1 = melee
+-- 2 = ranged
+-- 3 = both
 fluffy.haste_buffs_table = {};
 
-fluffy.haste_buffs_table[fluffy.haste_id_quick_shots]                           = {0, 1.0, false};
-fluffy.haste_buffs_table[fluffy.haste_id_bloodlust]                             = {0, 1.3, false};
-fluffy.haste_buffs_table[fluffy.haste_id_heroism]                               = {0, 1.3, false};
-fluffy.haste_buffs_table[fluffy.haste_id_berserking]                            = {0, 1.1, false};
-fluffy.haste_buffs_table[fluffy.haste_id_rapid_fire]                            = {0, 1.4, false};
-fluffy.haste_buffs_table[fluffy.haste_id_haste_potion]                          = {0, 400, true};
-fluffy.haste_buffs_table[fluffy.haste_id_hammer_haste]                          = {0, 212, true};
-fluffy.haste_buffs_table[fluffy.haste_id_abacus_of_the_violent_odds]            = {0, 260, true};
-fluffy.haste_buffs_table[fluffy.haste_id_dragonspine_trophy]                    = {0, 325, true};
-fluffy.haste_buffs_table[fluffy.haste_id_crowd_pummeler]                        = {0, 500, true};
+fluffy.haste_buffs_table[fluffy.haste_id_quick_shots]                           = {0, 1.0, false, 2};
+fluffy.haste_buffs_table[fluffy.haste_id_bloodlust]                             = {0, 1.3, false, 3};
+fluffy.haste_buffs_table[fluffy.haste_id_heroism]                               = {0, 1.3, false, 3};
+fluffy.haste_buffs_table[fluffy.haste_id_berserking]                            = {0, 1.1, false, 3};
+fluffy.haste_buffs_table[fluffy.haste_id_rapid_fire]                            = {0, 1.4, false, 2};
+fluffy.haste_buffs_table[fluffy.haste_id_haste_potion]                          = {0, 400, true, 3};
+fluffy.haste_buffs_table[fluffy.haste_id_hammer_haste]                          = {0, 212, true, 3};
+fluffy.haste_buffs_table[fluffy.haste_id_abacus_of_the_violent_odds]            = {0, 260, true, 3};
+fluffy.haste_buffs_table[fluffy.haste_id_dragonspine_trophy]                    = {0, 325, true, 3};
+fluffy.haste_buffs_table[fluffy.haste_id_crowd_pummeler]                        = {0, 500, true, 3};
+fluffy.haste_buffs_table[fluffy.haste_id_jackhammer]                            = {0, 300, true, 3};
+fluffy.haste_buffs_table[fluffy.haste_id_drums1]                                = {0, 80, true, 3};
 
 fluffy.buff_expiry_quick_shots = 0;
 fluffy.buff_expiry_rapid_fire = 0;

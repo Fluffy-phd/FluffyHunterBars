@@ -13,3 +13,9 @@
 
 [b]v1.0.2[/b]
 - Fixed an issue when cooldown reduction abilities would not correctly reflect the usability of Aimedshot or Multi-shot (such as [b]Renataki's Charm of Beasts[/b] currently)
+
+--todo
+- show correct values of movement causing retries (test how autoshot cast time behaves with altering ahste)
+- create configuration gui
+- melee abilities not shown when not anough mana for RS
+

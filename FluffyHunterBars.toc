@@ -29,6 +29,6 @@ equipment_handler.lua
 
 ui.elems.lua
 ui.core.lua
-#ui.config.lua
+ui.config.lua
 core.lua
 
