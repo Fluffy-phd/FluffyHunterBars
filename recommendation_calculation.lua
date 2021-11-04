@@ -874,8 +874,12 @@ function analyze_game_state(window_len)
 
     local spell, _, _, _, endTime = UnitCastingInfo("player");
     if spell then
-        -- print(UnitCastingInfo("player"));
         fluffy.cast_finishes = max(fluffy.cast_finishes, endTime * 0.001);
+    else
+        local spellC, _, _, _, endTimeC = UnitChannelInfo("player");
+        if spellC then
+            fluffy.cast_finishes = max(fluffy.cast_finishes, endTimeC * 0.001);
+        end
     end
 
     if fluffy.feign_death_active == 1 then

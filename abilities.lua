@@ -859,6 +859,11 @@ local function parse_combat_event(log_message)
 
     if src == fluffy.player_id then
 		
+		local spell_id = log_message[12];
+
+		-- if spell_id == 75 or spell_id == 2973 then
+		-- 	print("[" .. spell_id .. "]:" .. event .. " - " .. t);
+		-- end
 
         if event == "SWING_DAMAGE" or event == 'SWING_MISSED' then
 			local offhand_hit = log_message[21];
@@ -881,7 +886,12 @@ local function parse_combat_event(log_message)
 			current_auto_start =  GetTime();
 			current_auto_finish = current_auto_start + 0.5 * get_haste_mod_ranged(current_auto_start);
 
-			fluffy.ability_autoshot["fired"] = current_auto_finish;
+			-- print("auto: [" .. current_auto_start - fluffy.ability_autoshot["next_start"] .. "] [" .. current_auto_finish - fluffy.ability_autoshot["next_fired"].. "]" );
+
+			-- fluffy.ability_autoshot["fired"] = current_auto_finish;
+			-- fluffy.ability_autoshot["next_start"] = current_auto_start;
+			-- fluffy.ability_autoshot["next_fired"] = current_auto_finish;
+
 
 
 			-- prev_auto_start = next_auto_start;
@@ -899,13 +909,11 @@ local function parse_combat_event(log_message)
 
 
 			-- -- local speed, _, _, _, _, _ = UnitRangedDamage("player");
-			-- fluffy.ability_autoshot["fired"] = current_auto_finish;
-			-- fluffy.ability_autoshot["next_start"] = current_auto_start;
-			-- fluffy.ability_autoshot["next_fired"] = current_auto_finish;
+			fluffy.ability_autoshot["fired"] = current_auto_finish;
+			fluffy.ability_autoshot["next_start"] = current_auto_start;
+			fluffy.ability_autoshot["next_fired"] = current_auto_finish;
 	
 		elseif event == "SPELL_CAST_SUCCESS" and log_message[12] == fluffy.spell_id_auto then
-			prev_auto_start = next_auto_start;
-			prev_auto_finish = next_auto_finish;
 
 			current_auto_finish = GetTime();
 
@@ -918,12 +926,11 @@ local function parse_combat_event(log_message)
 			next_auto_finish = current_auto_finish + curr_speed;
 
 
-			-- local speed, _, _, _, _, _ = UnitRangedDamage("player");
 			fluffy.ability_autoshot["fired"] = current_auto_finish;
 			fluffy.ability_autoshot["next_start"] = next_auto_start;
 			fluffy.ability_autoshot["next_fired"] = next_auto_finish;
 			
-			print("auto: [" .. current_auto_start - prev_auto_start .. "] [" .. current_auto_finish - prev_auto_finish.. "]" );
+			
 
 		elseif event == "SPELL_CAST_FAILED" and log_message[12] == fluffy.spell_id_auto then
 			-- current_auto_start =  0;

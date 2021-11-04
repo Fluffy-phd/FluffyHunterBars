@@ -18,4 +18,16 @@
 - show correct values of movement causing retries (test how autoshot cast time behaves with altering ahste)
 - create configuration gui
 - melee abilities not shown when not anough mana for RS
+- depict when autoshot is being cast so the player can start queuing other abilities
+- add a cast bar for autoshot, steady shot, multishot and aimed shot
+- melee abilities are hidden when not enough mana
+- analyze autoshot delays and what caused them (delay by SS, MS, AC, etc)
 
+
+--debug
+- measure error of autoshot cast length (predict whent he cast should be finished, compare it to when the cast has been actually finished)
+
+
+--WoW
+- kill command on E
+- disable ElvUI cast bar for specific spells
