@@ -32,6 +32,9 @@ function update_talent_stats()
 		_, _, _, _, currRank, _ = GetTalentInfo(1,1); -- Quick Shots
 		fluffy.haste_buffs_table[fluffy.haste_id_quick_shots][2] = 1 + 0.03 * currRank;
 
+		_, _, _, _, currRank, _ = GetTalentInfo(1,20); -- serpent's swiftness
+		fluffy.serpent_swiftness = 1 + 0.04 * currRank;
+
 	else
 		_, _, _, _, currRank, _ = GetTalentInfo(2,9); -- Mortal Shots
 		fluffy.ranged_crit_modifier = 0.06*currRank;

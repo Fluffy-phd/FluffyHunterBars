@@ -3,7 +3,7 @@ local _, fluffy = ...
 --[[
     BAR COLORS: {red [0 - 255], green[0 - 255], blue[0 - 255], alpha[0 - 1]}
 --]]
-fluffy.color_autoshot = {255, 0, 0, 0.0};
+fluffy.color_autoshot = { 231, 76, 60, 0.5};
 fluffy.color_arcaneshot = {175, 122, 197, 0.9};
 fluffy.color_multishot = {3, 134, 254, 0.9};
 fluffy.color_steadyshot = {252, 152, 3, 0.9};
@@ -15,7 +15,7 @@ fluffy.autoshot_spark_width = 2;
 -- {red [0 - 255], green[0 - 255], blue[0 - 255], alpha[0 - 1]}
 fluffy.autoshot_spark_color = {255, 255, 255, 1};
 -- {red [0 - 255], green[0 - 255], blue[0 - 255], alpha[0 - 1]}
-fluffy.forbidden_movement_bar_color = {255, 0, 0, 0.25};
+fluffy.forbidden_movement_bar_color = {255, 0, 0, 0.0};
 -- 0: shown, 1: hidden
 fluffy.autoshot_tracker_hidden = 0;
 
@@ -52,3 +52,8 @@ fluffy.show_only_in_combat = 0;
 --]]
 fluffy.future_window_lenght = 3;
 
+fluffy.debug_output = true;
+
+fluffy.show_icons = false;
+
+fluffy.max_steady_clipping = 0.5;

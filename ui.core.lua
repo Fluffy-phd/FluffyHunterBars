@@ -92,7 +92,7 @@ function update_position()
 end
 
 function update_size()
-	if fluffy.is_player_hunter == false then
+	if not fluffy.is_player_hunter then
 		return;
 	end
 
@@ -118,6 +118,9 @@ function update_size()
     end
     for i=1,#FluffyBars_bars do
         FluffyBars_bars[i]:SetSize(1, h_);
+        if fluffy.show_icons then
+            FluffyBars_bars[i].icon:SetSize(h_,h_);
+        end
     end
 
 	-- local glow_scale = 1.6;
@@ -161,86 +164,87 @@ local function update_bars(ability, left_shift_px, shift_y, fluffyBar_len, fluff
         local m = #ability["bars"];
     
         for i=1,min(n, m) do
-            local ts = max(0, Ws[i]- t);
-            local te = min(fluffyBar_len_seconds, max(0, We[i]- t));
-            -- print(ability["name"] .. " -> " .. ts .. " - " .. te);
-    
-            if ts <= fluffyBar_len_seconds and te > 0 then
-                local ps = (fluffyBar_len) * ts / fluffyBar_len_seconds;
-                local pe = (fluffyBar_len) * te / fluffyBar_len_seconds;
-    
-                local px_start = ps;
-                local px_end = pe;
-                local px_width = (px_end - px_start);
-                -- print(ability["name"] .. "[" .. ps .. ", " .. pe .. "]" .. "[" .. px_width .. "]");
-    
-                local bar = ability["bars"][bar_idx];
-    
-                if px_width > bar_min_width then
-                    bar:SetWidth(px_width);
-                    bar:SetPoint('LEFT', px_start + 3, height);
-                    bar:Show();
-                else
-                    bar:Hide();
+            if i > 1 or ability ~= fluffy.ability_autoshot or not fluffy.is_casting_autoshot then
+                local ts = max(0, Ws[i]- t);
+                local te = min(fluffyBar_len_seconds, max(0, We[i]- t));
+                -- print(ability["name"] .. " -> " .. ts .. " - " .. te);
+        
+                if ts <= fluffyBar_len_seconds and te > 0 then
+                    local ps = (fluffyBar_len) * ts / fluffyBar_len_seconds;
+                    local pe = (fluffyBar_len) * te / fluffyBar_len_seconds;
+        
+                    local px_start = ps;
+                    local px_end = pe;
+                    local px_width = (px_end - px_start);
+                    -- print(ability["name"] .. "[" .. ps .. ", " .. pe .. "]" .. "[" .. px_width .. "]");
+        
+                    local bar = ability["bars"][bar_idx];
+        
+                    if px_width > bar_min_width then
+                        bar:SetWidth(px_width);
+                        bar:SetPoint('LEFT', px_start + 3, height);
+                        bar:Show();
+                    else
+                        bar:Hide();
+                    end
                 end
+                bar_idx = bar_idx + 1;
             end
-
-            bar_idx = bar_idx + 1;
         end        
     elseif fluffy.display_mode == 1 then
-        local t = GetTime();
-        local bar_idx = 1;
-        local Ws = ability["windows_s"];
-        local We = ability["windows_e"];
-        local n = #Ws;
-        local m = #ability["bars"] / 2;
-        -- m = 1;
+        -- local t = GetTime();
+        -- local bar_idx = 1;
+        -- local Ws = ability["windows_s"];
+        -- local We = ability["windows_e"];
+        -- local n = #Ws;
+        -- local m = #ability["bars"] / 2;
+        -- -- m = 1;
     
-        -- n = min(n, 1);
+        -- -- n = min(n, 1);
     
-        local mid_point = fluffyBar_len * 0.5;
+        -- local mid_point = fluffyBar_len * 0.5;
     
-        for i=1,min(n, m) do
-            local ts = max(0, Ws[i]- t);
-            local te = min(fluffyBar_len_seconds, max(0, We[i]- t));
+        -- for i=1,min(n, m) do
+        --     local ts = max(0, Ws[i]- t);
+        --     local te = min(fluffyBar_len_seconds, max(0, We[i]- t));
     
-            if ts <= fluffyBar_len_seconds and te > 0 then
-                local ps = 0.5 * (fluffyBar_len) * ts / fluffyBar_len_seconds;
-                local pe = 0.5 * (fluffyBar_len) * te / fluffyBar_len_seconds;
+        --     if ts <= fluffyBar_len_seconds and te > 0 then
+        --         local ps = 0.5 * (fluffyBar_len) * ts / fluffyBar_len_seconds;
+        --         local pe = 0.5 * (fluffyBar_len) * te / fluffyBar_len_seconds;
     
-                local px_start = ps;
-                local px_end = pe;
-                local px_width = (px_end - px_start);
+        --         local px_start = ps;
+        --         local px_end = pe;
+        --         local px_width = (px_end - px_start);
     
-                local bar = ability["bars"][bar_idx];
+        --         local bar = ability["bars"][bar_idx];
     
-                if px_width > bar_min_width then
-                    bar:SetWidth(px_width);
-                    bar:SetPoint('CENTER', px_start + px_width*0.5, height);
-                    bar:Show();
-                else
-                    bar:Hide();
-                end
+        --         if px_width > bar_min_width then
+        --             bar:SetWidth(px_width);
+        --             bar:SetPoint('CENTER', px_start + px_width*0.5, height);
+        --             bar:Show();
+        --         else
+        --             bar:Hide();
+        --         end
     
-                bar_idx = bar_idx + 1;
+        --         bar_idx = bar_idx + 1;
     
-                px_end = -ps;
-                px_start = -pe;
+        --         px_end = -ps;
+        --         px_start = -pe;
     
-                bar = ability["bars"][bar_idx];
+        --         bar = ability["bars"][bar_idx];
     
-                if px_width > bar_min_width then
-                    bar:SetWidth(px_width);
-                    bar:SetPoint('CENTER', px_start + px_width*0.5, height);
-                    bar:Show();
-                else
-                    bar:Hide();
-                end
+        --         if px_width > bar_min_width then
+        --             bar:SetWidth(px_width);
+        --             bar:SetPoint('CENTER', px_start + px_width*0.5, height);
+        --             bar:Show();
+        --         else
+        --             bar:Hide();
+        --         end
     
-                bar_idx = bar_idx + 1;
-            end
+        --         bar_idx = bar_idx + 1;
+        --     end
     
-        end        
+        -- end        
     end
 
 
@@ -595,13 +599,13 @@ function create_ui()
     create_autoshotTrackers(nbars);
 
     local align = 'CENTER';
-    create_bars(fluffy.ability_autoshot, align, nbars, fluffy.color_autoshot[1], fluffy.color_autoshot[2], fluffy.color_autoshot[3], fluffy.color_autoshot[4]);
+    create_bars(fluffy.ability_autoshot, align, nbars, fluffy.color_autoshot[1], fluffy.color_autoshot[2], fluffy.color_autoshot[3], fluffy.color_autoshot[4], fluffy.icon_path_auto);
     -- create_bars(fluffy.ability_aimedshot, align, nbars, fluffy.color_aimedshot[1], fluffy.color_aimedshot[2], fluffy.color_aimedshot[3], fluffy.color_aimedshot[4]);
-    create_bars(fluffy.ability_arcaneshot, align, nbars, fluffy.color_arcaneshot[1], fluffy.color_arcaneshot[2], fluffy.color_arcaneshot[3], fluffy.color_arcaneshot[4]);
-    create_bars(fluffy.ability_multishot, align, nbars, fluffy.color_multishot[1], fluffy.color_multishot[2], fluffy.color_multishot[3], fluffy.color_multishot[4]);
-    create_bars(fluffy.ability_steadyshot, align, nbars, fluffy.color_steadyshot[1], fluffy.color_steadyshot[2], fluffy.color_steadyshot[3], fluffy.color_steadyshot[4]);
-    create_bars(fluffy.ability_raptorstrike, align, nbars, fluffy.color_raptorstrike[1], fluffy.color_raptorstrike[2], fluffy.color_raptorstrike[3], fluffy.color_raptorstrike[4]);
-    create_bars(fluffy.ability_meleestrike, align, nbars, fluffy.color_meleestrike[1], fluffy.color_meleestrike[2], fluffy.color_meleestrike[3], fluffy.color_meleestrike[4]);
+    create_bars(fluffy.ability_arcaneshot, align, nbars, fluffy.color_arcaneshot[1], fluffy.color_arcaneshot[2], fluffy.color_arcaneshot[3], fluffy.color_arcaneshot[4], fluffy.icon_path_arcane);
+    create_bars(fluffy.ability_multishot, align, nbars, fluffy.color_multishot[1], fluffy.color_multishot[2], fluffy.color_multishot[3], fluffy.color_multishot[4], fluffy.icon_path_multi);
+    create_bars(fluffy.ability_steadyshot, align, nbars, fluffy.color_steadyshot[1], fluffy.color_steadyshot[2], fluffy.color_steadyshot[3], fluffy.color_steadyshot[4], fluffy.icon_path_steady);
+    create_bars(fluffy.ability_raptorstrike, align, nbars, fluffy.color_raptorstrike[1], fluffy.color_raptorstrike[2], fluffy.color_raptorstrike[3], fluffy.color_raptorstrike[4], fluffy.icon_path_raptor);
+    create_bars(fluffy.ability_meleestrike, align, nbars, fluffy.color_meleestrike[1], fluffy.color_meleestrike[2], fluffy.color_meleestrike[3], fluffy.color_meleestrike[4], fluffy.icon_path_melee);
 
     -- create_icon(fluffy.ability_autoshot, fluffy.icon_path_auto, 255, 0, 0, 1);
     -- create_icon(fluffy.ability_aimedshot, fluffy.icon_path_aimed, 255, 0, 0, 1);

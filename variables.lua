@@ -1,5 +1,7 @@
 local _, fluffy = ...
 
+fluffy.is_casting_autoshot = false;
+
 fluffy.current_addon_version = 205;
 fluffy.client_version = 0;
 fluffy.is_player_hunter = false;
@@ -61,6 +63,7 @@ fluffy.multishot_crit_bonus = 0;
 fluffy.raptor_crit_bonus = 0;
 fluffy.hit_bonus = 0;
 fluffy.arcane_cd_reduction = 0;
+fluffy.serpent_swiftness = 1;
 
 -- ranged weapon stats
 fluffy.ammo_dps = 0;

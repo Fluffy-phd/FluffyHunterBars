@@ -77,7 +77,7 @@ local hit_conversion_table = {
 
 -- RANGED HASTE MODIFIER GAINED SOLELY FROM BUFFS
 local function get_haste_mod_ranged(t)
-	local haste = 1/1.15;
+	local haste = 1/1.15/fluffy.serpent_swiftness;
 	local haste_rating = 0;
 	local player_level = UnitLevel("player");
 	local haste_rating_base = GetCombatRating(CR_HASTE_RANGED);
@@ -453,7 +453,7 @@ fluffy.ability_steadyshot["cdb"] = function(t)
 	return 1.5 - 1.5 * get_haste_mod_ranged(t);
 end
 fluffy.ability_raptorstrike["cdb"] = function(t)
-	return 6.2;
+	return 6.0;
 end
 fluffy.ability_meleestrike["cdb"] = function(t)
 	return fluffy.main_hand_base_speed * get_haste_mod_melee(t);
@@ -885,6 +885,7 @@ local function parse_combat_event(log_message)
 
 			current_auto_start =  GetTime();
 			current_auto_finish = current_auto_start + 0.5 * get_haste_mod_ranged(current_auto_start);
+			fluffy.is_casting_autoshot = true;
 
 			-- print("auto: [" .. current_auto_start - fluffy.ability_autoshot["next_start"] .. "] [" .. current_auto_finish - fluffy.ability_autoshot["next_fired"].. "]" );
 
@@ -916,6 +917,7 @@ local function parse_combat_event(log_message)
 		elseif event == "SPELL_CAST_SUCCESS" and log_message[12] == fluffy.spell_id_auto then
 
 			current_auto_finish = GetTime();
+			fluffy.is_casting_autoshot = false;
 
 			local curr_haste = get_haste_mod_ranged(current_auto_finish);
 			local curr_speed = fluffy.ranged_base_speed * curr_haste;
@@ -930,9 +932,11 @@ local function parse_combat_event(log_message)
 			fluffy.ability_autoshot["next_start"] = next_auto_start;
 			fluffy.ability_autoshot["next_fired"] = next_auto_finish;
 			
+			print_debug("WPN SPEED: " .. string.format("%5.3f", fluffy.ranged_base_speed) .. " -> " .. string.format("%5.3f", curr_speed));
 			
 
 		elseif event == "SPELL_CAST_FAILED" and log_message[12] == fluffy.spell_id_auto then
+			fluffy.is_casting_autoshot = false;
 			-- current_auto_start =  0;
 			-- current_auto_finish = 0;
 		-- elseif log_message[12] == fluffy.spell_id_auto then

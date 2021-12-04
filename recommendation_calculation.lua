@@ -373,7 +373,7 @@ fluffy.autoshot_sparks = {};
 --     wipe(final_rotation_t);
 --     wipe(final_rotation_A);
 -- end
-local recommendation_tolerance = 2.5;
+local recommendation_tolerance = 1.9;
 
 local function get_point_of_equilibrium_autoshot(A, t)
     local cast_A = A["cast"](t);
@@ -390,10 +390,7 @@ local function get_point_of_equilibrium_autoshot(A, t)
     local p_auto = d_auto / eWS;
     local p_A = d_A / (cd_A + cast_A);
 
-    -- local coeff = max(-cast_auto, cast_auto * (alpha - 1) - alpha * cd_A);
-    local coeff = -cast_auto;
-
-    return (alpha * cast_A * d_auto + d_A * coeff) / (alpha * d_auto + d_A);
+    return (alpha * cast_A * d_auto - d_A * cast_auto) / (alpha * d_auto + d_A);
 end
 
 local function get_point_of_equilibrium_abilities(dmg_1, dmg_2)
@@ -438,6 +435,11 @@ local function optimize_towards_autoshot()
 
                 local new_ts_1 = ts;
                 local new_te_1 = min(auto_ts + f, te);
+                if A == fluffy.ability_steadyshot then
+                    if fluffy.max_steady_clipping >= 0 then
+                        new_te_1 = min(new_te_1, auto_ts + fluffy.max_steady_clipping - fluffy.ability_steadyshot["cast"](auto_ts));
+                    end
+                end
 
 				if new_ts_1 < new_te_1 + 0.005 then
 					table.insert(intervals_abilities_starts_tmp, new_ts_1);
@@ -756,6 +758,9 @@ local function analyze_windows_of_opportunities_experimental(abilities, window_l
     for k, auto_fired_time in pairs(fluffy.autoshot_sparks) do
         table.insert(intervals_autoshot_ends, auto_fired_time);
         table.insert(intervals_autoshot_starts, auto_fired_time - auto_cast);
+
+        table.insert(fluffy.ability_autoshot["windows_s"], auto_fired_time - auto_cast);
+        table.insert(fluffy.ability_autoshot["windows_e"], auto_fired_time);
     end
 
     --then we start with defining intervals for each ability
@@ -806,6 +811,9 @@ local function analyze_windows_of_opportunities_experimental(abilities, window_l
                 if (IsUsableSpell(fluffy.ability_raptorstrike["active_id"])) then
                     table.insert(fluffy.ability_raptorstrike["windows_s"], cd_raptor);
                     table.insert(fluffy.ability_raptorstrike["windows_e"], cd_raptor + 25);
+                else
+                    table.insert(fluffy.ability_meleestrike["windows_s"], cd_melee);
+                    table.insert(fluffy.ability_meleestrike["windows_e"], cd_melee + 25);
                 end
             end
         end
@@ -896,11 +904,11 @@ function analyze_game_state(window_len)
         autoshot_shift = t;
     end
     autoshot_shift = max(fluffy.cast_finishes, max(autoshot_shift, fluffy.autoshot_delay));
-    if (IsPlayerMoving() or IsFalling()) then
-        last_time_moved = t;
-    end
+    -- if (IsPlayerMoving() or IsFalling()) then
+    --     last_time_moved = t;
+    -- end
     autoshot_shift = autoshot_shift + fluffy.ability_autoshot["cast"](autoshot_shift);
-    autoshot_shift = max(autoshot_shift, last_time_moved + fluffy.movement_spark_interval);
+    -- autoshot_shift = max(autoshot_shift, last_time_moved + fluffy.movement_spark_interval);
     table.insert(fluffy.autoshot_sparks, autoshot_shift);
 
     while autoshot_shift < t + 3*window_len do
@@ -952,6 +960,12 @@ function analyze_game_state(window_len)
         if intervals_abilities_ends[fluffy.ability_steadyshot] == nil then
             intervals_abilities_ends[fluffy.ability_steadyshot] = {};
         end
+    end
+    if intervals_abilities_starts[fluffy.ability_autoshot] == nil then
+        intervals_abilities_starts[fluffy.ability_autoshot] = {};
+    end
+    if intervals_abilities_ends[fluffy.ability_autoshot] == nil then
+        intervals_abilities_ends[fluffy.ability_autoshot] = {};
     end
 
     -- print(fluffy.ability_arcaneshot["dmg"]());

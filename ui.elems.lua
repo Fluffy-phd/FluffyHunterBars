@@ -70,17 +70,26 @@ function create_autoshotTrackers(nbars)
 
 end
 
-function create_bars(ability, align, nbars, r, g, b, a)
+function create_bars(ability, align, nbars, r, g, b, a, icon_path)
     ability["align"] = align;
 
     for i=1,nbars do
         frame = CreateFrame("Frame","FluffyBarAbility", FluffyBar);
         frame:SetPoint(align,0,0);
-        local t = frame:CreateTexture("AbilityTex","ARTWORK")
-        t:SetColorTexture(r/255, g/255, b/255, a);
-        t:SetAllPoints(frame)
-        frame.texture = t
-    
+
+        local coloredTexture = frame:CreateTexture("AbilityTex","ARTWORK")
+        coloredTexture:SetColorTexture(r/255, g/255, b/255, a);
+        coloredTexture:SetAllPoints(frame);
+        frame.texture = coloredTexture;
+        
+        if fluffy.show_icons then
+            local tIcon = frame:CreateTexture(nil, "OVERLAY");
+            tIcon:SetTexture(icon_path, "CLAMPTOBLACKADDITIVE");
+            tIcon:SetAlpha(0.75);
+            tIcon:SetPoint("TOPLEFT", frame);
+            frame.icon = tIcon;
+        end
+
         table.insert(ability["bars"], frame);
         table.insert(FluffyBars_bars, frame);
     end
