@@ -52,8 +52,10 @@ fluffy.show_only_in_combat = 0;
 --]]
 fluffy.future_window_lenght = 3;
 
-fluffy.debug_output = true;
+fluffy.debug_output = false;
 
 fluffy.show_icons = false;
 
-fluffy.max_steady_clipping = 0.5;
+fluffy.max_steady_clipping = -0.5;
+
+fluffy.hide_autoshotbar_when_casting = true;

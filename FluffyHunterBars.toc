@@ -5,7 +5,7 @@
 
 
 ## Author: Fluffydork of Nethergarde Keep (EU)
-## Version: 2.0.5
+## Version: 2.1.0
 
 ## X-Category: Combat
 
@@ -13,11 +13,26 @@
 
 ## SavedVariablesPerCharacter: FluffyDBPC
 
-config.lua
-debug.lua
+# helper files
+preamble.config.lua
+preamble.debug.lua
 
-auxiliary.lua
-variables.lua
+preamble.auxiliary.lua
+preamble.variables.lua
+
+# files related to the player power
+# tracks talents, weapons, agility attack power, hit, crit as a function of time
+player.stats.lua
+
+# tracks haste buffs and calculates haste as a function of time
+player.haste.lua
+
+# tracks armor pene buffs and calculates arp as a function of time
+player.arp.lua
+
+
+player.damage.lua
+
 player_stats.lua
 
 

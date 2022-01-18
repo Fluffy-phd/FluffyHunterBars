@@ -373,7 +373,7 @@ fluffy.autoshot_sparks = {};
 --     wipe(final_rotation_t);
 --     wipe(final_rotation_A);
 -- end
-local recommendation_tolerance = 1.9;
+local recommendation_tolerance = 1.0;
 
 local function get_point_of_equilibrium_autoshot(A, t)
     local cast_A = A["cast"](t);
@@ -881,6 +881,11 @@ function analyze_game_state(window_len)
 
 
     local spell, _, _, _, endTime = UnitCastingInfo("player");
+    if not fluffy.is_casting_autoshot then
+        fluffy.cast_finishes = t;
+    else
+        fluffy.cast_finishes = fluffy.ability_autoshot["next_start"];
+    end
     if spell then
         fluffy.cast_finishes = max(fluffy.cast_finishes, endTime * 0.001);
     else

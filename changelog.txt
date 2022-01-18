@@ -22,6 +22,7 @@
 - add a cast bar for autoshot, steady shot, multishot and aimed shot
 - melee abilities are hidden when not enough mana
 - analyze autoshot delays and what caused them (delay by SS, MS, AC, etc)
+- denote that autoshot is being cast by making visible the autoshot bar
 
 
 --debug

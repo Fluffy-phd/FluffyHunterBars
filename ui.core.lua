@@ -164,7 +164,7 @@ local function update_bars(ability, left_shift_px, shift_y, fluffyBar_len, fluff
         local m = #ability["bars"];
     
         for i=1,min(n, m) do
-            if i > 1 or ability ~= fluffy.ability_autoshot or not fluffy.is_casting_autoshot then
+            if i > 1 or ((ability ~= fluffy.ability_autoshot or (not fluffy.is_casting_autoshot)) ) or not fluffy.hide_autoshotbar_when_casting then
                 local ts = max(0, Ws[i]- t);
                 local te = min(fluffyBar_len_seconds, max(0, We[i]- t));
                 -- print(ability["name"] .. " -> " .. ts .. " - " .. te);
@@ -292,9 +292,9 @@ local function update_autoshot_spark(idx, t, fluffyBar_len, fluffyBar_len_second
             -- spark_bar:SetWidth(0.1);
             spark_bar:Show();
 
-            movement_bar:SetWidth(pixelw_auto_window);
-            movement_bar:SetPoint('LEFT', -pixelw_auto_window, shift_y);
-            movement_bar:Show();
+            -- movement_bar:SetWidth(pixelw_auto_window);
+            -- movement_bar:SetPoint('LEFT', -pixelw_auto_window, shift_y);
+            -- movement_bar:Show();
 
             -- movement_bar:Hide();
         else
@@ -306,9 +306,9 @@ local function update_autoshot_spark(idx, t, fluffyBar_len, fluffyBar_len_second
             -- spark_bar:SetWidth(fluffy.autoshot_spark_width);
             spark_bar:Show();
     
-            movement_bar:SetWidth(pixelw_auto_window);
-            movement_bar:SetPoint('LEFT', -pixelw_auto_window, shift_y);
-            movement_bar:Show();
+            -- movement_bar:SetWidth(pixelw_auto_window);
+            -- movement_bar:SetPoint('LEFT', -pixelw_auto_window, shift_y);
+            -- movement_bar:Show();
         end        
     elseif fluffy.display_mode == 1 then
         local nmax = #FluffyBars_autoshotsparks;
