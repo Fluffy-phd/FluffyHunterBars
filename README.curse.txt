@@ -85,6 +85,8 @@ Changing size
 
 /fluffy resize w h sets the size of the bars to be w pixels wide and h pixels tall
 
+/fluffy showicons toggles the display of icons for abilities on the bars
+
 /fluffy icosize l sets the size of the ability icons to be l pixels wide and l pixels tall
 
 /fluffy reset resets the position and size of the addon to default values and enables shift+drag&drop

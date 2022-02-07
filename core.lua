@@ -13,6 +13,7 @@ local function print_help(msg)
 	print("------------------");
 	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."info|r'             prints out the current |c"..fluffy.msg_color_caution.."width|r, |c"..fluffy.msg_color_caution.."height|r and |c"..fluffy.msg_color_caution.."icon size|r");
 	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."resize|r |c"..fluffy.msg_color_caution.."w h|r'    sets the UI elements to fit the specified width |c"..fluffy.msg_color_caution.."w|r and height |c"..fluffy.msg_color_caution.."h|r in pixels");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."showicons|r'             |c"..fluffy.msg_color_caution.."toggles|r displaying icons on the bars");
 	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."icosize|r |c"..fluffy.msg_color_caution.."l|r'       sets the size of the ability icons to |c"..fluffy.msg_color_caution.."l x l|r pixels");
 	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."move|r |c"..fluffy.msg_color_caution.."x y|r'      moves the UI elements along the axi with respect to offsets |c"..fluffy.msg_color_caution.."x|r and |c"..fluffy.msg_color_caution.."y|r pixels");
 	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."freq|r |c"..fluffy.msg_color_caution.."n|r'          sets the refresh rate of the UI elements to |c"..fluffy.msg_color_caution.."n|r times per second");
@@ -51,6 +52,7 @@ function print_info()
 	print("|c"..fluffy.msg_color_ok.."Fluffy Hunter Bars|r [|c"..fluffy.msg_color_info.."width|r     ] = " .. FluffyDBPC["size"][1]);
 	print("|c"..fluffy.msg_color_ok.."Fluffy Hunter Bars|r [|c"..fluffy.msg_color_info.."height|r    ] = " .. FluffyDBPC["size"][2]);
 	print("|c"..fluffy.msg_color_ok.."Fluffy Hunter Bars|r [|c"..fluffy.msg_color_info.."icon size|r] = " .. FluffyDBPC["icosize"][1]);
+	print("|c"..fluffy.msg_color_ok.."Fluffy Hunter Bars|r [|c"..fluffy.msg_color_info.."showicons|r] = " .. (FluffyDBPC["show_icons"][1] and "on" or "off"));
 end
 
 function reset()
@@ -69,6 +71,7 @@ function reset()
 	FluffyDBPC["hidden"] = {false};
 	FluffyDBPC["icosize"] = {25};
 	FluffyDBPC["locked"] = {false};
+	FluffyDBPC["show_icons"] = {true};
 
 	fix();
 	
@@ -165,6 +168,10 @@ SlashCmdList["FLUFFY_BAR"] = function(msg)
 	elseif cmd == "purgedb" and nargs == 0 then
 		purge();
 		print("Fluffy Hunter Bars Cache cleared");
+	elseif cmd == "showicons" and nargs == 0 then
+		FluffyDBPC["show_icons"] = {not FluffyDBPC["show_icons"][1]};
+		print("Hunter Bars icons are now toggled to ".. (FluffyDBPC["show_icons"][1] and "on" or "off"));
+		update_bar_icon_visibility();
 	elseif cmd == "icosize" and nargs == 1 then
 		local l = tonumber(args[1]);
 		
@@ -219,6 +226,7 @@ function variables_frame:OnEvent(event, name )
 
 		update_frequency();
 		update_visibility();
+		update_bar_icon_visibility();
 		update_position();
 		update_size();
 
