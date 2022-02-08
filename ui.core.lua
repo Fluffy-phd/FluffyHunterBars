@@ -1,6 +1,21 @@
 local _, fluffy = ...
 local is_moving = false;
 
+function update_bar_icon_visibility()
+    if (FluffyDBPC == nil) then
+        InitDB();
+    end
+
+    local show_icons = FluffyDBPC["show_icons"][1];
+    
+    for i=1,#FluffyBars_bars do
+        if (show_icons) then
+            FluffyBars_bars[i].icon:Show();
+        else
+            FluffyBars_bars[i].icon:Hide();
+        end
+    end
+end
 
 function update_visibility()
 	
@@ -118,7 +133,7 @@ function update_size()
     end
     for i=1,#FluffyBars_bars do
         FluffyBars_bars[i]:SetSize(1, h_);
-        if fluffy.show_icons then
+        if (FluffyBars_bars[i].icon) then
             FluffyBars_bars[i].icon:SetSize(h_,h_);
         end
     end
@@ -628,7 +643,7 @@ end
 
 local frame_combat_hidden = CreateFrame("Frame","CombatTracker", UIParent);
 local combat_status_last_update = 0;
-frame_combat_hidden:SetScript("OnUpdate", 
+frame_combat_hidden:SetScript("OnUpdate",
 
     function(self, elapsed)
 

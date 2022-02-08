@@ -85,6 +85,8 @@ The [B]/fluffy[/B] command prints all available configuration commands.
 
 [B]/fluffy resize w h[/B] sets the size of the bars to be [B]w[/B] pixels wide and [B]h[/B] pixels tall
 
+[B]/fluffy showicons[/B] toggles the display of icons for abilities on the bars
+
 [B]/fluffy icosize l[/B] sets the size of the ability icons to be [B]l[/B] pixels wide and [B]l[/B] pixels tall
 
 [B]/fluffy reset[/B] resets the position and size of the addon to default values and enables [B]shift+drag&drop[/B]

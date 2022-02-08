@@ -141,6 +141,10 @@ function round(val, decimal)
 		FluffyDBPC["hidden"] = {false};
 	end
 	
+	if FluffyDBPC["show_icons"] == nil then
+		FluffyDBPC["show_icons"] = {true};
+	end
+
 	if FluffyDBPC["icosize"] == nil then
 		FluffyDBPC["icosize"] = {24};
 	end

@@ -74,7 +74,7 @@ function create_bars(ability, align, nbars, r, g, b, a, icon_path)
     ability["align"] = align;
 
     for i=1,nbars do
-        frame = CreateFrame("Frame","FluffyBarAbility", FluffyBar);
+        local frame = CreateFrame("Frame","FluffyBarAbility", FluffyBar);
         frame:SetPoint(align,0,0);
 
         local coloredTexture = frame:CreateTexture("AbilityTex","ARTWORK")
@@ -82,13 +82,11 @@ function create_bars(ability, align, nbars, r, g, b, a, icon_path)
         coloredTexture:SetAllPoints(frame);
         frame.texture = coloredTexture;
         
-        if fluffy.show_icons then
-            local tIcon = frame:CreateTexture(nil, "OVERLAY");
-            tIcon:SetTexture(icon_path, "CLAMPTOBLACKADDITIVE");
-            tIcon:SetAlpha(0.75);
-            tIcon:SetPoint("TOPLEFT", frame);
-            frame.icon = tIcon;
-        end
+        local tIcon = frame:CreateTexture(nil, "OVERLAY");
+        tIcon:SetTexture(icon_path, "CLAMPTOBLACKADDITIVE");
+        tIcon:SetAlpha(0.75);
+        tIcon:SetPoint("TOPLEFT", frame);
+        frame.icon = tIcon;
 
         table.insert(ability["bars"], frame);
         table.insert(FluffyBars_bars, frame);
@@ -101,8 +99,8 @@ function create_icon(ability, icon_path, r, g, b, a)
     local t = frame_icon:CreateTexture(nil,"OVERLAY");
     t:SetTexture(icon_path, false);
     t:SetTexCoord(0.075, 0.925, 0.075, 0.925);
-    t:SetAllPoints(frame_icon)
-    frame_icon.texture = t
+    t:SetAllPoints(frame_icon);
+    frame_icon.texture = t;
 
     table.insert(FluffyBars_icons, frame_icon);
     ability["icon"] = frame_icon;
