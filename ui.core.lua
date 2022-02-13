@@ -326,77 +326,77 @@ local function update_autoshot_spark(idx, t, fluffyBar_len, fluffyBar_len_second
             -- movement_bar:Show();
         end        
     elseif fluffy.display_mode == 1 then
-        local nmax = #FluffyBars_autoshotsparks;
-        local idx1 = 2*(idx - 1) + 1;
-        local idx2 = idx1 + 1;
-        if idx2 > nmax then
-            return;
-        end
-        FluffyBars_autoshotsparks[idx1]:Hide();
-        FluffyBars_autoshotmovements[idx1]:Hide();
-        FluffyBars_autoshotsparks[idx2]:Hide();
-        FluffyBars_autoshotmovements[idx2]:Hide();
+        -- local nmax = #FluffyBars_autoshotsparks;
+        -- local idx1 = 2*(idx - 1) + 1;
+        -- local idx2 = idx1 + 1;
+        -- if idx2 > nmax then
+        --     return;
+        -- end
+        -- FluffyBars_autoshotsparks[idx1]:Hide();
+        -- FluffyBars_autoshotmovements[idx1]:Hide();
+        -- FluffyBars_autoshotsparks[idx2]:Hide();
+        -- FluffyBars_autoshotmovements[idx2]:Hide();
 
-        local auto_t = fluffy.autoshot_sparks[idx];
-        local spark_bar1 = FluffyBars_autoshotsparks[idx1];
-        local movement_bar1 = FluffyBars_autoshotmovements[idx1];
-        local spark_bar2 = FluffyBars_autoshotsparks[idx2];
-        local movement_bar2 = FluffyBars_autoshotmovements[idx2];
+        -- local auto_t = fluffy.autoshot_sparks[idx];
+        -- local spark_bar1 = FluffyBars_autoshotsparks[idx1];
+        -- local movement_bar1 = FluffyBars_autoshotmovements[idx1];
+        -- local spark_bar2 = FluffyBars_autoshotsparks[idx2];
+        -- local movement_bar2 = FluffyBars_autoshotmovements[idx2];
     
-        local active_spark_position_seconds = auto_t - t;
-        local active_spark_position1 = 0.5 * fluffyBar_len * active_spark_position_seconds / (fluffyBar_len_seconds);
-        local active_spark_position2 = -active_spark_position1;
+        -- local active_spark_position_seconds = auto_t - t;
+        -- local active_spark_position1 = 0.5 * fluffyBar_len * active_spark_position_seconds / (fluffyBar_len_seconds);
+        -- local active_spark_position2 = -active_spark_position1;
         
-        local mshift_seconds = max(0.02, active_spark_position_seconds - fluffy.movement_spark_interval);
+        -- local mshift_seconds = max(0.02, active_spark_position_seconds - fluffy.movement_spark_interval);
     
         
-        if active_spark_position_seconds <= 0  or active_spark_position_seconds > fluffyBar_len_seconds then
-            movement_bar1:Hide();
-            movement_bar2:Hide();
+        -- if active_spark_position_seconds <= 0  or active_spark_position_seconds > fluffyBar_len_seconds then
+        --     movement_bar1:Hide();
+        --     movement_bar2:Hide();
     
-            spark_bar1:Hide();
-            spark_bar2:Hide();
-        else
+        --     spark_bar1:Hide();
+        --     spark_bar2:Hide();
+        -- else
     
-            if active_spark_position_seconds > fluffyBar_len_seconds then
-                -- if mshift_seconds < fluffyBar_len_seconds then
-                --     local px_start = ceil(mshift_seconds * 0.5 * fluffyBar_len / fluffyBar_len_seconds);
-                --     local px_shift = ceil(fluffy.movement_spark_interval * 0.5 * fluffyBar_len / fluffyBar_len_seconds);
-                --     local w = ceil(0.5 * fluffyBar_len - px_start);
-                --     local p = ceil(0.5 * px_shift);
-                --     -- print(0.5*fluffyBar_len - px_start);
-                --     movement_bar1:SetWidth(w);
-                --     movement_bar2:SetWidth(w);
-                --     movement_bar1:SetPoint('CENTER', -p, 0);
-                --     movement_bar2:SetPoint('CENTER',  p, 0);
-                --     movement_bar1:Show();
-                --     movement_bar2:Show();
-                -- end
-                -- spark_bar1:SetPoint('CENTER', active_spark_position1, 0);
-                -- spark_bar2:SetPoint('CENTER', active_spark_position2, 0);
+        --     if active_spark_position_seconds > fluffyBar_len_seconds then
+        --         -- if mshift_seconds < fluffyBar_len_seconds then
+        --         --     local px_start = ceil(mshift_seconds * 0.5 * fluffyBar_len / fluffyBar_len_seconds);
+        --         --     local px_shift = ceil(fluffy.movement_spark_interval * 0.5 * fluffyBar_len / fluffyBar_len_seconds);
+        --         --     local w = ceil(0.5 * fluffyBar_len - px_start);
+        --         --     local p = ceil(0.5 * px_shift);
+        --         --     -- print(0.5*fluffyBar_len - px_start);
+        --         --     movement_bar1:SetWidth(w);
+        --         --     movement_bar2:SetWidth(w);
+        --         --     movement_bar1:SetPoint('CENTER', -p, 0);
+        --         --     movement_bar2:SetPoint('CENTER',  p, 0);
+        --         --     movement_bar1:Show();
+        --         --     movement_bar2:Show();
+        --         -- end
+        --         -- spark_bar1:SetPoint('CENTER', active_spark_position1, 0);
+        --         -- spark_bar2:SetPoint('CENTER', active_spark_position2, 0);
     
-                -- spark_bar1:SetWidth(0.0001);
-                -- spark_bar2:SetWidth(0.0001);
-                -- spark_bar1:Show();
-                -- spark_bar2:Show();
-            else
-                local mshift_rel = active_spark_position_seconds - mshift_seconds;
-                local pixelw_auto_window = max(0, (mshift_rel * 0.5 * fluffyBar_len / fluffyBar_len_seconds));
-                local p = ceil(0.5*pixelw_auto_window);
+        --         -- spark_bar1:SetWidth(0.0001);
+        --         -- spark_bar2:SetWidth(0.0001);
+        --         -- spark_bar1:Show();
+        --         -- spark_bar2:Show();
+        --     else
+        --         local mshift_rel = active_spark_position_seconds - mshift_seconds;
+        --         local pixelw_auto_window = max(0, (mshift_rel * 0.5 * fluffyBar_len / fluffyBar_len_seconds));
+        --         local p = ceil(0.5*pixelw_auto_window);
     
-                movement_bar1:SetWidth(pixelw_auto_window);
-                movement_bar2:SetWidth(pixelw_auto_window);
-                movement_bar1:SetPoint('CENTER', -p, shift_y);
-                movement_bar2:SetPoint('CENTER',  p, shift_y);
-                movement_bar1:Show();
-                movement_bar2:Show();
-                spark_bar1:SetPoint('CENTER', active_spark_position1, shift_y - 1);
-                spark_bar2:SetPoint('CENTER', active_spark_position2, shift_y - 1);
-                spark_bar1:Show();
-                spark_bar2:Show();
-            end
+        --         movement_bar1:SetWidth(pixelw_auto_window);
+        --         movement_bar2:SetWidth(pixelw_auto_window);
+        --         movement_bar1:SetPoint('CENTER', -p, shift_y);
+        --         movement_bar2:SetPoint('CENTER',  p, shift_y);
+        --         movement_bar1:Show();
+        --         movement_bar2:Show();
+        --         spark_bar1:SetPoint('CENTER', active_spark_position1, shift_y - 1);
+        --         spark_bar2:SetPoint('CENTER', active_spark_position2, shift_y - 1);
+        --         spark_bar1:Show();
+        --         spark_bar2:Show();
+        --     end
     
-        end
+        -- end
     end
 end
 

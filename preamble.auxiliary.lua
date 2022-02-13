@@ -142,7 +142,7 @@ function round(val, decimal)
 	end
 	
 	if FluffyDBPC["show_icons"] == nil then
-		FluffyDBPC["show_icons"] = {true};
+		FluffyDBPC["show_icons"] = {false};
 	end
 
 	if FluffyDBPC["icosize"] == nil then
