@@ -700,6 +700,14 @@ local function update_spell_finished(spellID)
 		fluffy.ability_meleestrike["next_start"] = t + mainSpeed;
 		-- analyze_game_state(fluffy.future_window_lenght);
 
+	elseif (spellID == fluffy.spell_id_readiness) then
+
+		fluffy.autoshot_delay = t + 0.5;
+		fluffy.ability_autoshot["next_start"] = fluffy.autoshot_delay;
+		fluffy.ability_autoshot["next_fired"] = fluffy.ability_autoshot["next_start"] + fluffy.ability_autoshot["cast"](t);
+		
+		last_fired_ability = fluffy.spell_id_readiness;
+
 	end
 	last_fired_ability = nil;
 end

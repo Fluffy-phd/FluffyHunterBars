@@ -18,6 +18,7 @@ fluffy.spell_id_auto = 75;
 fluffy.spell_id_FD = 5384;
 fluffy.spell_id_steady = 34120;
 fluffy.spell_id_raptor = 2973;
+fluffy.spell_id_readiness = 23989;
 
 -- haste buffs
 fluffy.haste_id_quick_shots                             = 6150;
