@@ -1,379 +1,8 @@
 local _, fluffy = ...
 
-local update_interval_seconds = 0.1;
 local last_update = 0;
 
 fluffy.autoshot_sparks = {};
-
-
--- local final_rotation_indices = {};
--- local final_rotation_t = {};
--- local final_rotation_A = {};
-
-
--- local function get_triggered_cooldown(A1, A2, t)
---     local ts_triggered_cooldown = 0;
--- 	if fluffy.client_version > 11307 then
---         if A1 == fluffy.ability_aimedshot and A2 == fluffy.ability_autoshot then
---             ts_triggered_cooldown = t + A2["cdb"](t);
---         elseif A1 == fluffy.ability_raptorstrike and A2 == fluffy.ability_meleestrike then
---             ts_triggered_cooldown = t + A2["cdb"](t);
---         elseif A1 == fluffy.ability_meleestrike and A2 == fluffy.ability_raptorstrike then
---             ts_triggered_cooldown = t + A1["cdb"](t);
---         elseif A1 == A2 then
---             ts_triggered_cooldown = t + A1["cdb"](t);
---         end
---     else
---         if A1 == fluffy.ability_aimedshot and A2 == fluffy.ability_arcaneshot then
---             ts_triggered_cooldown = t + A2["cdb"](t);
---         elseif A1 == fluffy.ability_arcaneshot and A2 == fluffy.ability_aimedshot then
---             ts_triggered_cooldown = t + A2["cdb"](t);
---         elseif A1 == fluffy.ability_raptorstrike and A2 == fluffy.ability_meleestrike then
---             ts_triggered_cooldown = t + A2["cdb"](t);
---         elseif A1 == fluffy.ability_meleestrike and A2 == fluffy.ability_raptorstrike then
---             ts_triggered_cooldown = t + A1["cdb"](t);
---         elseif A1 == A2 then
---             ts_triggered_cooldown = t + A1["cdb"](t);
---         end
---     end	
-
---     return ts_triggered_cooldown;
--- end
-
--- local function get_cast_delay(A, ts, A_ref, ts_ref)
-
---     local gcd = (ts_ref + 1.5) * A["gcd"] * A_ref["gcd"];
---     local ts_triggered_cooldown = get_triggered_cooldown(A_ref, A, ts_ref + A_ref["cast"](ts_ref));
---     local te_ref = max(ts_triggered_cooldown, max(ts_ref + A_ref["cast"](ts_ref), gcd));
-
---     return max(te_ref - ts, 0);
--- end
-
--- local t_ends_tmp = {};
--- local damage_tmp = {};
--- local function get_expected_dps(A, ts, t_init)
---     local t_start = ts;
---     local t_end = ts + A["cast"](ts);
-
---     local shift = 0;
---     local n_ref = #final_rotation_indices;
---     local i;
---     local A_tmp;
---     local te_tmp;
-
---     t_ends_tmp[A] = t_end;
---     for j=1, n_ref do
---         i = final_rotation_indices[j];
---         A_tmp = final_rotation_A[i];
---         te_tmp = t_ends_tmp[A_tmp];
---         if te_tmp == nil then
---             t_ends_tmp[A_tmp] = final_rotation_t[i] + A_tmp["cast"](final_rotation_t[i]);
---         else
---             t_ends_tmp[A_tmp] = max(te_tmp, final_rotation_t[i] + A_tmp["cast"](final_rotation_t[i]));
---         end
---         damage_tmp[A_tmp] = 0;
---     end
---     damage_tmp[A] = A["dmg"]();
---     -- print("[T]" .. t_ends_tmp[A] - t_init .. " vs. " .. t_end - t_init);
-    
---     for j=1, n_ref do
---         i = final_rotation_indices[j];
---         A_tmp = final_rotation_A[i];
---         damage_tmp[A_tmp] = damage_tmp[A_tmp] + A_tmp["dmg"]();
---     end
-
---     local ref_idx = n_ref + 1;
---     for j=1, n_ref do
---         i = final_rotation_indices[j];
---         if t_start <= final_rotation_t[i] + 0.0005 then
---             ref_idx = j;
---             break;
---         end
---     end
-
---     local A_prev = A;
---     local A_ref;
---     local ts_ref;
---     local gcd;
---     local ts_triggered_cooldown;
---     local ts_ref_new;
---     for j=ref_idx, n_ref do
---         i = final_rotation_indices[j];
-
---         A_ref = final_rotation_A[i];
-
---         ts_ref = final_rotation_t[i];
---         gcd = (t_start + 1.5) * A_prev["gcd"] * A_ref["gcd"];
---         ts_triggered_cooldown = get_triggered_cooldown(A_prev, A_ref, t_end);
-
-
-
-
---         ts_ref_new = max(ts_triggered_cooldown, max(ts_ref, max(gcd, t_end)));
---         -- print("[C]" .. A_ref["name"] .. "[ " .. ts_ref - t_init .. "] -> [" .. ts_ref_new - t_init .. "]")
-
---         -- print("[A]" .. A["name"] .. " at " .. ts - GetTime() .. " Delaying " .. A_ref["name"] .. " by " .. ts_ref_new - ts_ref .. " [s]");
---         A_prev = A_ref;
---         t_start = ts_ref_new;
---         t_end = ts_ref_new + A_ref["cast"](ts_ref_new);
-
---         t_ends_tmp[A_ref] = max(t_ends_tmp[A_ref], t_end);
---     end
-
---     local global_duration = t_end - t_init;
---     if global_duration < 60 then
---         global_duration = 60;
---     elseif global_duration < 120 then
---         global_duration = 120;
---     elseif global_duration < 180 then
---         global_duration = 180;
---     elseif global_duration < 240 then
---         global_duration = 240;
---     elseif global_duration < 300 then
---         global_duration = 300;
---     end
-
---     local dps = 0;
---     local t2_duration;
---     local dmg;
---     local t_tmp;
---     for k, v in pairs(damage_tmp) do
---         t2_duration = global_duration - (t_ends_tmp[k] - t_init) - k["cdb"](ts);
---         dmg = (v + t2_duration * k["dps"](t_init));
---         t_tmp = global_duration;
---         -- dmg = v + 0.005 * k["dps"](t_init);
---         -- t_tmp = t_ends_tmp[k] - t_init + 0.005;
---         dps = dps +  dmg / t_tmp;
---         -- print("[X]" .. k["name"] .. " : " .. (t_ends_tmp[k]).. " [s], dps: " .. dmg / t_tmp);
---     end
-
---     while #t_ends_tmp > 0 do
---         table.remove(t_ends_tmp);
---     end
---     while #damage_tmp > 0 do
---         table.remove(damage_tmp);
---     end
-
---     -- print("[R]" .. dps .. " dps");
---     wipe(t_ends_tmp);
---     wipe(damage_tmp);
---     return dps;
--- end
-
--- local function shift_final_rotation(idx_ref, ts, A)
-
---     local t_start = ts;
---     local t_end = ts + A["cast"](ts);
-
---     local shift = 0;
---     local n_ref = #final_rotation_indices;
-
---     -- print("[X]" .. idx_ref .. "/" .. n_ref);
-
---     local A_prev = A;
---     for j=idx_ref, n_ref do
---         local i = final_rotation_indices[j];
-
---         local A_ref = final_rotation_A[i];
-
---         local ts_ref = final_rotation_t[i];
---         local gcd = (t_start + 1.5) * A_prev["gcd"] * A_ref["gcd"];
---         local ts_triggered_cooldown = get_triggered_cooldown(A_prev, A_ref, t_end);
-
---         local ts_ref_new = max(ts_triggered_cooldown, max(ts_ref, max(gcd, t_end)));
-
---         local delay_ref = ts_ref_new - ts_ref;
---         -- if delay_ref <= 0.0005 then
---         --     break;
---         -- end
---         final_rotation_t[i] = ts_ref_new;
-
---         A_prev = A_ref;
---         t_start = ts_ref_new;
---         t_end = ts_ref_new + A_ref["cast"](ts_ref_new);
---     end
-
---     -- print(A["name"] .. " -> " .. ts - GetTime());
---     -- for j = 1,n_ref do
---     --     local i = final_rotation_indices[j];
---     --     print(final_rotation_A[i]["name"] .. " -> " .. final_rotation_t[i] - GetTime());
---     -- end
--- end
-
--- local function sort_rotation(a, b) 
---     return final_rotation_t[a] < final_rotation_t[b]; 
--- end
-
--- local function update_rotation(A, ts)
---     local n_final = #final_rotation_indices;
-
---     local ref_idx = 1;
---     local shift = 0;
---     local shift_ref = 0;
---     local dms_gain_max = 0;
---     local dmg_gain_tmp = 0;
---     local t_delay = 0;
-    
---     dms_gain_max = get_expected_dps(A, ts, ts);
---     local delay_opti = 0;
---     local idx_ref_update = 1;
-
---     if n_final > 0 then
---         if ts > final_rotation_t[final_rotation_indices[n_final]] then
---             idx_ref_update = n_final + 1;
---         else
---             for i = 1, n_final do
---                 local j = final_rotation_indices[i];
---                 local ts_ref = final_rotation_t[j];
---                 if ts_ref < ts then
---                     idx_ref_update = i + 1;
---                 end
---             end
---         end
---     else
---         idx_ref_update = n_final + 1;
---     end
---     -- print("  " .. A["name"] .. " : " .. dms_gain_max .. " at time " .. ts - GetTime() .. " idx: " .. idx_ref_update);
-
---     for j = 1, n_final do
---         local i = final_rotation_indices[j];
---         t_delay = get_cast_delay(A, ts, final_rotation_A[i], final_rotation_t[i]);
---         dmg_gain_tmp = get_expected_dps(A, ts + t_delay, ts);
---         -- print("  " .. A["name"] .. " : " .. dmg_gain_tmp .. " at time " .. t_delay + ts - GetTime() .. " idx: " .. j + 1);
-
---         if dmg_gain_tmp > dms_gain_max then
---             dms_gain_max = dmg_gain_tmp;
---             delay_opti = t_delay;
---             idx_ref_update = j + 1;
---         end
---     end
-
---     ts = ts + delay_opti;
-
---     -- print("CASTING " .. A["name"] .. " at " .. ts - GetTime() .. ", first updated index: " .. idx_ref_update);
-
---     shift_final_rotation(idx_ref_update, ts, A);
-
---     -- ok
-    
---     table.insert(final_rotation_indices, n_final + 1);
---     table.insert(final_rotation_t, ts);
---     table.insert(final_rotation_A, A);
---     table.sort(final_rotation_indices, sort_rotation);
---     -- collectgarbage();
---     return ts;
--- end
-
--- local function find_point_of_equilibrium(ordered_index, nsteps)
---     local t_init = final_rotation_t[final_rotation_indices[1]];
---     local global_index = table.remove(final_rotation_indices, ordered_index);
---     local A = final_rotation_A[global_index];
---     local ts = final_rotation_t[global_index];
-
---     local t_equi = 0;
---     local t_delay;
---     local ts_ref;
---     local A_ref;
-
---     local dps_ref = get_expected_dps(A, ts, t_init);
-
---     if ordered_index <= #final_rotation_indices then
---         local i = final_rotation_indices[ordered_index];
---         ts_ref = final_rotation_t[i];
---         A_ref = final_rotation_A[i];
-
---         if A_ref == A then
---             t_equi = ts_ref;
---         else
---             t_delay = get_cast_delay(A, ts, A_ref, ts_ref);
---             local dps_tmp = get_expected_dps(A, ts + t_delay, t_init);
-    
---             if dps_tmp >= dps_ref then
-    
---                 t_equi = ts_ref;
-    
---             else
---                 dps_ref = dps_tmp;
-    
---                 local t1 = ts;
---                 local t2 = ts_ref;
-    
---                 while nsteps > 0 do
---                     t_equi = (t1 + t2) * 0.5;
---                     dps_tmp = get_expected_dps(A, t_equi, t_init);
-    
---                     if dps_tmp > dps_ref then
---                         t1 = t_equi;
---                     else
---                         t2 = t_equi;
---                     end
-    
---                     nsteps = nsteps - 1;
---                 end
---             end
---         end
---     else
---         t_equi = ts + 0.5;
---     end
-
---     table.insert(final_rotation_indices, ordered_index, global_index);
---     return t_equi;
--- end
-
--- -- defines the intervals of oppportunities for each ability
--- local function update_intervals(nsteps)
---     local Ws;
---     local We;
---     local ts;
---     local te;
---     local limit = 3;
-
---     for j = 1,min(#final_rotation_indices, limit) do
---         local i = final_rotation_indices[j];
---         Ws = final_rotation_A[i]["windows_s"];
---         We = final_rotation_A[i]["windows_e"];
---         ts = final_rotation_t[i];
---         te = find_point_of_equilibrium(j, nsteps);
-
---         -- print("[R]" .. final_rotation_A[i]["name"] .. ": " .. ts - GetTime() .. " - " .. te - GetTime());
-
---         table.insert(Ws, ts);
---         table.insert(We, te);
---     end
--- end
-
--- local function analyze_windows_of_opportunities(abilities, t_start, t_end)
-
---     -- local ability_priority = calculate_ability_priority(abilities, t_start);
---     -- wipe(clumped_up_rotation);
---     local n = #abilities;
---     local A;
-
---     for i=1,n do
---         A = abilities[i];
-
---         local ts = t_start + A["cd"](t_start);
---         if ts < t_start-A["cast"](ts) then
---             ts = t_start;
---         end
---         ts = update_rotation(A, ts);
-
---         ts = ts + A["cast"](ts);
---         ts = ts + A["cdb"](ts);
---         while ts < t_end do
---             ts = update_rotation(A, ts);
---             ts = ts + A["cast"](ts);
---             ts = ts + A["cdb"](ts);
---         end
---     end
-
---     update_intervals(8);
-
---     wipe(final_rotation_indices);
---     wipe(final_rotation_t);
---     wipe(final_rotation_A);
--- end
-local recommendation_tolerance = 1.0;
 
 local function get_point_of_equilibrium_autoshot(A, t)
     local cast_A = A["cast"](t);
@@ -384,8 +13,6 @@ local function get_point_of_equilibrium_autoshot(A, t)
 
     local d_A = A["dmg"]();
     local d_auto = fluffy.ability_autoshot["dmg"]();
-
-    local alpha = recommendation_tolerance;
 
     local p_auto = d_auto / eWS;
     local p_A = d_A / (cd_A + cast_A);
@@ -426,12 +53,13 @@ local function optimize_towards_autoshot()
                 local auto_te =   intervals_autoshot_ends[j];
                 local f = 0;
 
-                if j > 1 then
-                    f = -get_point_of_equilibrium_autoshot(A, intervals_autoshot_ends[j - 1]);
-                else
-                    f = -get_point_of_equilibrium_autoshot(A, auto_ts);
+                if A == fluffy.ability_steadyshot then
+                    if j > 1 then
+                        f = -get_point_of_equilibrium_autoshot(A, intervals_autoshot_ends[j - 1]);
+                    else
+                        f = -get_point_of_equilibrium_autoshot(A, auto_ts);
+                    end
                 end
-				
 
                 local new_ts_1 = ts;
                 local new_te_1 = min(auto_ts + f, te);
@@ -477,118 +105,6 @@ local function optimize_towards_autoshot()
     end
 end
 
--- local function optimize_intervals_abilities(A, B)
-	
--- 	local dmg_A = A["dmg"]();
--- 	local dmg_B = B["dmg"]();
--- 	local cast_A = 1.5;
--- 	local cast_B = 1.5;
-	
--- 	local f = get_point_of_equilibrium(dmg_A, dmg_B, cast_A, cast_B);
-	
--- 	-- intervals in A limit the intervals in B
--- 	-- we limit only the ends of intervals for now
--- 	if f < 0 then
--- 		return false; --no changes to intervals have been performed
--- 	end
-
--- 	local intervals_start_A = intervals_abilities_starts[A];
--- 	local intervals_end_A   =   intervals_abilities_ends[A];
--- 	local intervals_start_B = intervals_abilities_starts[B];
--- 	local intervals_end_B   =   intervals_abilities_ends[B];
-	
--- 	local n_A = #intervals_start_A;
--- 	local n_B = #intervals_start_B;
-	
--- 	local out = false;
--- 	-- for each interval in B, we find the closest interval in A further in time and clip the end of B if necessary
--- 	for i =1, n_B do
--- 		local te_B = intervals_end_B[i];
--- 		cast_B = 1.5;
--- 		local ts_A_ref = 0;
-		
--- 		for j = 1, n_A do
--- 			local ts_A = intervals_start_A[j];
--- 			if ts_A > te_B then
--- 				if ts_A_ref < 0.005 then
--- 					ts_A_ref = ts_A;
--- 				else
--- 					ts_A_ref = min(ts_A_ref, ts_A);
--- 				end
--- 			end
--- 		end
-		
--- 		if ts_A_ref > 0 then
--- 			cast_A = 1.5;
--- 			local f_BA = get_point_of_equilibrium(dmg_B, dmg_A, cast_B, cast_A);
--- 			if f_BA < 0 then
--- 				intervals_end_B[i] = te_B + f_BA;
--- 				out = true;
--- 			end
--- 		end
--- 	end
-	
--- 	return out;
--- end
-
--- local function clip_intervals_abilities(A, B)
-	
--- 	local dmg_A = A["dmg"]();
--- 	local dmg_B = B["dmg"]();
--- 	local cast_A = 1.5;
--- 	local cast_B = 1.5;
-	
--- 	local f = get_point_of_equilibrium(dmg_A, dmg_B, cast_A, cast_B);
-	
--- 	if f < 0 then
--- 		return;
--- 	end
--- 	-- intervals in A limit the intervals in B
-
--- 	local intervals_start_A = intervals_abilities_starts[A];
--- 	local intervals_end_A   =   intervals_abilities_ends[A];
--- 	local intervals_start_B = intervals_abilities_starts[B];
--- 	local intervals_end_B   =   intervals_abilities_ends[B];
-	
--- 	local n_A = #intervals_start_A;
--- 	local n_B = #intervals_start_B;
-	
--- 	local out = false;
--- 	-- for each interval in B, we find the closest interval in A earlier in time and clip the start of B if necessary
--- 	for i =1, n_B do
--- 		local ts_B = intervals_start_B[i];
--- 		local te_B = intervals_end_B[i];
--- 		cast_B = 1.5;
--- 		local te_A_ref = te_B + 1;
-		
--- 		for j = 1, n_A do
--- 			local te_A = intervals_end_A[j];
--- 			if te_A > ts_B and te_A < te_B then
--- 				te_A_ref = min(te_A_ref, te_A);
--- 			end
--- 		end
--- 		if te_A_ref < te_B then
--- 			intervals_start_B[i] = te_A_ref;
--- 		end
--- 	end
--- end
-
--- local function optimize_intervals()
--- 	local out = false;
-	
--- 	for A, _ in pairs(intervals_abilities_starts) do
--- 		for B, _ in pairs(intervals_abilities_starts) do
--- 			if A ~= B then
--- 				local out_tmp = optimize_intervals_abilities(A, B);
--- 				if out_tmp == true then
--- 					out = true;
--- 				end
--- 			end
--- 		end
--- 	end
-	
--- 	return out;
--- end
 
 -- trimms the intervals in A such as A := A \setminus [ts_B, te_B]
 local function set_minus(A, ts_B, te_B)
@@ -846,9 +362,6 @@ local abilities_to_consider = {};
 local last_time_moved = 0;
 function analyze_game_state(window_len)
 
-    if fluffy.is_player_hunter == false or fluffy.ranged_weapon_id == 0 then
-		return;
-	end    
 
     local t = GetTime();
     if  fluffy.update_frequency_val * (t - last_update) < 1 then
@@ -860,9 +373,7 @@ function analyze_game_state(window_len)
     --     print(startTime/1000 - fluffy.cast_finishes, endTime/1000 - fluffy.cast_finishes);
     -- end
     
-    update_player_stats();
 
-	local t = GetTime();
     wipe(fluffy.ability_autoshot["windows_s"]);
     wipe(fluffy.ability_aimedshot["windows_s"]);
     wipe(fluffy.ability_arcaneshot["windows_s"]);
@@ -878,7 +389,10 @@ function analyze_game_state(window_len)
     wipe(fluffy.ability_raptorstrike["windows_e"]);
     wipe(fluffy.ability_meleestrike["windows_e"]);
     wipe(fluffy.autoshot_sparks);
-
+    if fluffy.is_player_hunter == false or fluffy.ranged_weapon_id == 0 then
+		return;
+	end    
+    update_player_stats();
 
     local spell, _, _, _, endTime = UnitCastingInfo("player");
     if not fluffy.is_casting_autoshot then

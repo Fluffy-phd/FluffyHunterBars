@@ -32,15 +32,6 @@ fluffy.consider_steadyshot = 1;
 fluffy.consider_melee = 1;
 
 --[[
-    DISPLAY STYLE
-
-    0: suggestions flow from right to left
-    1: suggestions flow from the sides to the center
---]]
-
-fluffy.display_mode = 0;
-
---[[
     WHEN VISIBLE
     0: shows the bars according to the settings (either shown or hidden all the time)    
     1: shows the bars only in combat when the settings is set to visible
@@ -55,7 +46,5 @@ fluffy.future_window_lenght = 3;
 fluffy.debug_output = false;
 
 fluffy.show_icons = false;
-
-fluffy.max_steady_clipping = -0.5;
 
 fluffy.hide_autoshotbar_when_casting = true;

@@ -10,6 +10,8 @@ fluffy.update_frequency_val = 45;
 fluffy.last_update = 0;
 fluffy.time_loaded = 0;
 
+fluffy.display_mode = 0;
+
 
 fluffy.spell_id_aimed = 19434;
 fluffy.spell_id_multi = 2643;
