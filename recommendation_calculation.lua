@@ -4,20 +4,28 @@ local last_update = 0;
 
 fluffy.autoshot_sparks = {};
 
-local function get_point_of_equilibrium_autoshot(A, t)
-    local cast_A = A["cast"](t);
-    local cd_A = A["cdb"](t);
+local function get_point_of_equilibrium_autoshot(A, ats, ate)
+    -- (t_equi_steady2auto + 1.5*h - t_ready_auto) * dps_auto =  (t_ready_auto + 0.5*h - t_ready_steady) * dps_steady
 
-    local cast_auto = fluffy.ability_autoshot["cast"](t);
-    local eWS = fluffy.ability_autoshot["cdb"](t) + cast_auto;
-
+    local h = (ate - ats) * 2;
     local d_A = A["dmg"]();
+    local cd_A = A["cd"](ats);
+
+    local cast_A = A["cast"](ats);
+    local cdb_A = A["cdb"](ats);
+    local dps_A = d_A/(cdb_A + cast_A);
+
+    -- (t + cast_A - ats) * dps_auto <  (ate - t) * dps_A
+    -- t * (dps_auto + dps_A) <  (ate) * dps_A - (cast_A - ats) * dps_auto
+    -- t * (dps_auto + dps_A) <  ate * dps_A - (cast_A - ats) * dps_auto
+    -- t <  (ate * dps_A - (cast_A - ats) * dps_auto)/(dps_auto + dps_A)
+
+    local cast_auto = (ate - ats);
+    local eWS = fluffy.ability_autoshot["cdb"](ats) + cast_auto;
     local d_auto = fluffy.ability_autoshot["dmg"]();
+    local dps_auto = d_auto / eWS;
 
-    local p_auto = d_auto / eWS;
-    local p_A = d_A / (cd_A + cast_A);
-
-    return (alpha * cast_A * d_auto - d_A * cast_auto) / (alpha * d_auto + d_A);
+    return (ate * dps_A - (cast_A - ats) * dps_auto)/(dps_auto + dps_A);
 end
 
 local function get_point_of_equilibrium_abilities(dmg_1, dmg_2)
@@ -51,23 +59,14 @@ local function optimize_towards_autoshot()
             for j = 1,#intervals_autoshot_starts do
                 local auto_ts = intervals_autoshot_starts[j];
                 local auto_te =   intervals_autoshot_ends[j];
-                local f = 0;
+                local f = auto_ts;
 
                 if A == fluffy.ability_steadyshot then
-                    if j > 1 then
-                        f = -get_point_of_equilibrium_autoshot(A, intervals_autoshot_ends[j - 1]);
-                    else
-                        f = -get_point_of_equilibrium_autoshot(A, auto_ts);
-                    end
+                    f = min(f, get_point_of_equilibrium_autoshot(A, auto_ts, auto_te));
                 end
 
                 local new_ts_1 = ts;
-                local new_te_1 = min(auto_ts + f, te);
-                if A == fluffy.ability_steadyshot then
-                    if fluffy.max_steady_clipping >= 0 then
-                        new_te_1 = min(new_te_1, auto_ts + fluffy.max_steady_clipping - fluffy.ability_steadyshot["cast"](auto_ts));
-                    end
-                end
+                local new_te_1 = min(f, te);
 
 				if new_ts_1 < new_te_1 + 0.005 then
 					table.insert(intervals_abilities_starts_tmp, new_ts_1);
@@ -270,8 +269,8 @@ local function analyze_windows_of_opportunities_experimental(abilities, window_l
     local t = GetTime();
 
     -- first we define curently expected windows for autoshot casts
-    local auto_cast = fluffy.ability_autoshot["cast"](t);
     for k, auto_fired_time in pairs(fluffy.autoshot_sparks) do
+        local auto_cast = fluffy.ability_autoshot["cast"](auto_fired_time);
         table.insert(intervals_autoshot_ends, auto_fired_time);
         table.insert(intervals_autoshot_starts, auto_fired_time - auto_cast);
 
