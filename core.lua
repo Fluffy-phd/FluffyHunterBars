@@ -11,19 +11,40 @@ local function print_help(msg)
 
 	print("Available Fluffy commands:");
 	print("------------------");
-	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."info|r'             prints out the current |c"..fluffy.msg_color_caution.."width|r, |c"..fluffy.msg_color_caution.."height|r and |c"..fluffy.msg_color_caution.."icon size|r");
-	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."resize|r |c"..fluffy.msg_color_caution.."w h|r'    sets the UI elements to fit the specified width |c"..fluffy.msg_color_caution.."w|r and height |c"..fluffy.msg_color_caution.."h|r in pixels");
-	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."showicons|r'             |c"..fluffy.msg_color_caution.."toggles|r displaying icons on the bars");
-	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."icosize|r |c"..fluffy.msg_color_caution.."l|r'       sets the size of the ability icons to |c"..fluffy.msg_color_caution.."l x l|r pixels");
-	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."move|r |c"..fluffy.msg_color_caution.."x y|r'      moves the UI elements along the axi with respect to offsets |c"..fluffy.msg_color_caution.."x|r and |c"..fluffy.msg_color_caution.."y|r pixels");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."info|r' prints out the current settings of all variables");
+	print("------------------");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."resize|r |c"..fluffy.msg_color_caution.."w h|r' sets the UI elements to fit the specified width |c"..fluffy.msg_color_caution.."w|r and height |c"..fluffy.msg_color_caution.."h|r in pixels");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."move|r |c"..fluffy.msg_color_caution.."x y|r' moves the UI elements along the axi with respect to offsets |c"..fluffy.msg_color_caution.."x|r and |c"..fluffy.msg_color_caution.."y|r pixels");
+	print("------------------");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."showicons|r' |c"..fluffy.msg_color_caution.."toggles|r displaying icons on the bars");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."icosize|r |c"..fluffy.msg_color_caution.."l|r' sets the size of the ability icons to |c"..fluffy.msg_color_caution.."l x l|r pixels");
+	print("------------------");
 	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."freq|r |c"..fluffy.msg_color_caution.."n|r'          sets the refresh rate of the UI elements to |c"..fluffy.msg_color_caution.."n|r times per second");
-	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."hide|r'             |c"..fluffy.msg_color_caution.."hides|r the UI elements");
-	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."show|r'            |c"..fluffy.msg_color_caution.."shows|r the UI elements");
-	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."reset|r'            |c"..fluffy.msg_color_caution.."resets|r the position and size of the UI element to default values");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."hide|r' |c"..fluffy.msg_color_caution.."hides|r the UI elements");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."show|r' |c"..fluffy.msg_color_caution.."shows|r the UI elements");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."reset|r' |c"..fluffy.msg_color_caution.."resets|r the position and size of the UI element to default values");
 	print("------------------");
 	print("|c"..fluffy.msg_color_ok.."Furthermore you may use|r |c"..fluffy.msg_color_info.."SHIFT+CLICK|r |c"..fluffy.msg_color_ok.."to drag the UI elements around|r");
-	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."lock|r'            |c"..fluffy.msg_color_caution.."prevents|r the UI elements from being draggable");
-	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."unlock|r'            |c"..fluffy.msg_color_caution.."allows|r the UI elements to be moved by mouse");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."lock|r' |c"..fluffy.msg_color_caution.."prevents|r the UI elements from being draggable");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."unlock|r' |c"..fluffy.msg_color_caution.."allows|r the UI elements to be moved by mouse");
+	print("------------------");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."color auto|r |c"..fluffy.msg_color_caution.."R G B A|r' sets the color and alpha of the |c"..fluffy.msg_color_info.."'Auto Shot'|r cast window");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."color spark|r |c"..fluffy.msg_color_caution.."R G B A|r' sets the color and alpha of the |c"..fluffy.msg_color_info.."'Auto Shot indicator'|r");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."color arcane|r |c"..fluffy.msg_color_caution.."R G B A|r' sets the color and alpha of the |c"..fluffy.msg_color_info.."'Arcane Shot'|r recommendation window");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."color steady|r |c"..fluffy.msg_color_caution.."R G B A|r' sets the color and alpha of the |c"..fluffy.msg_color_info.."'Steady Shot'|r recommendation window");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."color multi|r |c"..fluffy.msg_color_caution.."R G B A|r' sets the color and alpha of the |c"..fluffy.msg_color_info.."'Multi-Shot'|r recommendation window");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."color raptor|r |c"..fluffy.msg_color_caution.."R G B A|r' sets the color and alpha of the |c"..fluffy.msg_color_info.."'Raptor Strike'|r window");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."color melee|r |c"..fluffy.msg_color_caution.."R G B A|r' sets the color and alpha of the |c"..fluffy.msg_color_info.."'Auto Attack'|r window");
+	print("------------------");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."spark|r |c"..fluffy.msg_color_caution.."n|r' sets the width of the autoshot indicator in pixels");
+	print("------------------");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."use arcane|r' |c"..fluffy.msg_color_caution.." toggles|r displaying recommendations for |c"..fluffy.msg_color_info.."'Arcane Shot'|r");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."use multi|r' |c"..fluffy.msg_color_caution.." toggles|r displaying recommendations for |c"..fluffy.msg_color_info.."'Multi-Shot'|r");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."use melee|r' |c"..fluffy.msg_color_caution.." toggles|r displaying recommendations for |c"..fluffy.msg_color_info.."'Melee abilities'|r");
+	print("------------------");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."incombat|r' |c"..fluffy.msg_color_caution.." toggles|r displaying the bars only in combat");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."length|r |c"..fluffy.msg_color_caution.."n|r' sets the bar length to show recommendations 'n' seconds into the future");
+	
 end
 
 
@@ -48,11 +69,49 @@ function fix()
 	update_position();
 end
 
-function print_info()
+function print_info_position()
+	local pos_x = math.floor(FluffyDBPC["pos"][2]*100 + 0.5)*0.01;
+	local pos_y = math.floor(FluffyDBPC["pos"][3]*100 + 0.5)*0.01;
+	print("|c"..fluffy.msg_color_ok.."Fluffy Hunter Bars|r [|c"..fluffy.msg_color_info.."position|r     ] = (" .. pos_x .. ", " .. pos_y .. ")");
+end
+
+function print_info_width()
 	print("|c"..fluffy.msg_color_ok.."Fluffy Hunter Bars|r [|c"..fluffy.msg_color_info.."width|r     ] = " .. FluffyDBPC["size"][1]);
+end
+
+function print_info_height()
 	print("|c"..fluffy.msg_color_ok.."Fluffy Hunter Bars|r [|c"..fluffy.msg_color_info.."height|r    ] = " .. FluffyDBPC["size"][2]);
+end
+
+function print_info_iconsize()
 	print("|c"..fluffy.msg_color_ok.."Fluffy Hunter Bars|r [|c"..fluffy.msg_color_info.."icon size|r] = " .. FluffyDBPC["icosize"][1]);
+end
+
+function print_info_showicons()
 	print("|c"..fluffy.msg_color_ok.."Fluffy Hunter Bars|r [|c"..fluffy.msg_color_info.."showicons|r] = " .. (FluffyDBPC["show_icons"][1] and "on" or "off"));
+end
+
+function print_info_update_freqency()
+	print("|c"..fluffy.msg_color_ok.."Fluffy Hunter Bars|r [|c"..fluffy.msg_color_info.."update frequency|r] = " .. FluffyDBPC["update"][1] .. " fps");
+end
+
+function print_info_hidden()
+	print("|c"..fluffy.msg_color_ok.."Fluffy Hunter Bars|r [|c"..fluffy.msg_color_info.."hidden|r] = " .. (FluffyDBPC["hidden"][1] and "yes" or "no"));
+end
+
+function print_info_locked()
+	print("|c"..fluffy.msg_color_ok.."Fluffy Hunter Bars|r [|c"..fluffy.msg_color_info.."locked|r] = " .. (FluffyDBPC["locked"][1] and "yes" or "no"));
+end
+
+function print_info()
+	print_info_position();
+	print_info_width();
+	print_info_height();
+	print_info_iconsize();
+	print_info_showicons();
+	print_info_update_freqency();
+	print_info_hidden();
+	print_info_locked();
 end
 
 function reset()
@@ -64,16 +123,37 @@ function reset()
 	end
 	
 	FluffyDBPC = {};
-	FluffyDBPC["version"] = 1;
+	FluffyDBPC["version"] = fluffy.current_addon_version;
 	FluffyDBPC["pos"] = {"CENTER", 0, 0};
 	FluffyDBPC["size"] = {321, 25};
 	FluffyDBPC["update"] = {45};
 	FluffyDBPC["hidden"] = {false};
-	FluffyDBPC["icosize"] = {25};
+	FluffyDBPC["icosize"] = {24};
 	FluffyDBPC["locked"] = {false};
-	FluffyDBPC["show_icons"] = {true};
+	FluffyDBPC["show_icons"] = {false};
+
+	FluffyDBPC["color_auto"] = {231, 76, 60, 0.5};
+	FluffyDBPC["color_spark"] = {255, 255, 255, 1};
+	FluffyDBPC["color_arcane"] = {175, 122, 197, 0.9};
+	FluffyDBPC["color_multi"] = {3, 134, 254, 0.9};
+	FluffyDBPC["color_steady"] = {252, 152, 3, 0.9};
+	FluffyDBPC["color_raptor"] = {39, 174, 96, 0.9};
+	FluffyDBPC["color_melee"] = {213, 216, 220, 0.9};
+
+	FluffyDBPC["spark_width"] = 2;
+	
+	FluffyDBPC["consider_arcane"] = {true};
+	FluffyDBPC["consider_multi"] = {true};
+	FluffyDBPC["consider_melee"] = {true};
+	FluffyDBPC["show_only_in_combat"] = {false};
+
+	FluffyDBPC["window_length"] = 3;
+
+	FluffyDBPC["hide_autoshotbar_when_casting"] = {false};
 
 	fix();
+
+	print_info();
 	
 end
 

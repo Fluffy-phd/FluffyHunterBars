@@ -6,7 +6,6 @@ fluffy.current_addon_version = 205;
 fluffy.client_version = 0;
 fluffy.is_player_hunter = false;
 fluffy.player_id = nil;
-fluffy.update_frequency_val = 45;
 fluffy.last_update = 0;
 fluffy.time_loaded = 0;
 

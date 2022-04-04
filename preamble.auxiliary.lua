@@ -122,7 +122,7 @@ function round(val, decimal)
 	end
 
 	if FluffyDBPC["version"] == nil then
-		FluffyDBPC["version"] = 0;
+		FluffyDBPC["version"] = fluffy.current_addon_version;
 	end
 	
 	if FluffyDBPC["pos"] == nil then
@@ -151,6 +151,62 @@ function round(val, decimal)
 	
 	if FluffyDBPC["locked"] == nil then
 		FluffyDBPC["locked"] = {false};
+	end
+	
+	if FluffyDBPC["color_auto"] == nil then
+		FluffyDBPC["color_auto"] = {231, 76, 60, 0.5};
+	end
+	
+	if FluffyDBPC["color_spark"] == nil then
+		FluffyDBPC["color_spark"] = {255, 255, 255, 1};
+	end
+	
+	if FluffyDBPC["color_arcane"] == nil then
+		FluffyDBPC["color_arcane"] = {175, 122, 197, 0.9};
+	end
+	
+	if FluffyDBPC["color_multi"] == nil then
+		FluffyDBPC["color_multi"] = {3, 134, 254, 0.9};
+	end
+	
+	if FluffyDBPC["color_steady"] == nil then
+		FluffyDBPC["color_steady"] = {252, 152, 3, 0.9};
+	end
+	
+	if FluffyDBPC["color_raptor"] == nil then
+		FluffyDBPC["color_raptor"] = {39, 174, 96, 0.9};
+	end
+	
+	if FluffyDBPC["color_melee"] == nil then
+		FluffyDBPC["color_melee"] = {213, 216, 220, 0.9};
+	end
+	
+	if FluffyDBPC["spark_width"] == nil then
+		FluffyDBPC["spark_width"] = 2;
+	end
+	
+	if FluffyDBPC["consider_arcane"] == nil then
+		FluffyDBPC["consider_arcane"] = {true};
+	end
+	
+	if FluffyDBPC["consider_multi"] == nil then
+		FluffyDBPC["consider_multi"] = {true};
+	end
+	
+	if FluffyDBPC["consider_melee"] == nil then
+		FluffyDBPC["consider_melee"] = {true};
+	end
+	
+	if FluffyDBPC["show_only_in_combat"] == nil then
+		FluffyDBPC["show_only_in_combat"] = {false};
+	end
+	
+	if FluffyDBPC["window_length"] == nil then
+		FluffyDBPC["window_length"] = 3;
+	end
+
+	if FluffyDBPC["hide_autoshotbar_when_casting"] == nil then
+		FluffyDBPC["hide_autoshotbar_when_casting"] = {false};
 	end
 
 	if FluffyDBPC["quiver"] == nil then

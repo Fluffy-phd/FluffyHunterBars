@@ -38,15 +38,17 @@ function create_icon_anchor()
 end
 
 function create_autoshotTrackers(nbars)
-    local r1 = fluffy.autoshot_spark_color[1]/255;
-    local g1 = fluffy.autoshot_spark_color[2]/255;
-    local b1 = fluffy.autoshot_spark_color[3]/255;
-    local a1 = fluffy.autoshot_spark_color[4];
-
+    local C = FluffyDBPC["color_spark"];
+    local r1 = C[1]/255;
+    local g1 = C[2]/255;
+    local b1 = C[3]/255;
+    local a1 = C[4];
+--[[
     local r2 = fluffy.forbidden_movement_bar_color[1]/255;
     local g2 = fluffy.forbidden_movement_bar_color[2]/255;
     local b2 = fluffy.forbidden_movement_bar_color[3]/255;
     local a2 = fluffy.forbidden_movement_bar_color[4];
+--]]
 
     for i = 1,nbars do
         FluffyBarAutoshotSpark = CreateFrame("Frame","FluffyBarAutoshotSpark",FluffyBar);
@@ -58,6 +60,7 @@ function create_autoshotTrackers(nbars)
     
         table.insert(FluffyBars_autoshotsparks, FluffyBarAutoshotSpark);
     
+--[[
         frame = CreateFrame("Frame","FluffyBarAutoshotMovementBar",FluffyBarAutoshotSpark);
         frame:SetPoint("CENTER",0,0);
         local t = frame:CreateTexture("AutoshotMovTex","OVERLAY")
@@ -66,6 +69,7 @@ function create_autoshotTrackers(nbars)
         frame.texture = t
     
         table.insert(FluffyBars_autoshotmovements, frame);
+--]]
     end
 
 end

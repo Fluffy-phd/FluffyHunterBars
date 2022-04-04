@@ -295,13 +295,13 @@ fluffy.ability_raptorstrike["name"] = "Raptor strike";
 fluffy.ability_meleestrike["name"] = "Melee strike";
 
 -- do we want to include these abilities in our calculations?
-fluffy.ability_autoshot["forbid"] = 1;
-fluffy.ability_aimedshot["forbid"] = 0;
-fluffy.ability_arcaneshot["forbid"] = fluffy.consider_arcaneshot;
-fluffy.ability_multishot["forbid"] = fluffy.consider_multishot;
-fluffy.ability_steadyshot["forbid"] = fluffy.consider_steadyshot;
-fluffy.ability_raptorstrike["forbid"] = fluffy.consider_melee;
-fluffy.ability_meleestrike["forbid"] = fluffy.consider_melee;
+fluffy.ability_autoshot["forbid"] = false;
+fluffy.ability_aimedshot["forbid"] = true;
+fluffy.ability_arcaneshot["forbid"] = false;
+fluffy.ability_multishot["forbid"] = false;
+fluffy.ability_steadyshot["forbid"] = false;
+fluffy.ability_raptorstrike["forbid"] = false;
+fluffy.ability_meleestrike["forbid"] = false;
 
 -- last time the ability was fired off
 fluffy.ability_autoshot["fired"] = 0.0;
@@ -597,7 +597,7 @@ local function update_ability_stats(ability)
 	ability["known"] = false;
 	ability["flat_bonus"] = 0;
 
-	if ability["forbid"] == 0 then
+	if ability["forbid"] == true then
 		return;
 	end
 
@@ -628,6 +628,15 @@ local function update_ability_stats(ability)
 end
 
 function update_spell_data()
+
+	fluffy.ability_autoshot["forbid"] = false;
+	fluffy.ability_aimedshot["forbid"] = true;
+	fluffy.ability_arcaneshot["forbid"] = (not FluffyDBPC["consider_arcane"][1]);
+	fluffy.ability_multishot["forbid"] = (not FluffyDBPC["consider_multi"][1]);
+	fluffy.ability_steadyshot["forbid"] = false;
+	fluffy.ability_raptorstrike["forbid"] = (not FluffyDBPC["consider_melee"][1]);
+	fluffy.ability_meleestrike["forbid"] = (not FluffyDBPC["consider_melee"][1]);
+
 	update_ability_stats(fluffy.ability_aimedshot);
 	update_ability_stats(fluffy.ability_autoshot);
 	update_ability_stats(fluffy.ability_arcaneshot);
@@ -758,6 +767,8 @@ end
 local local_game_state = {};
 
 fluffy.autoshot_delay = 0;
+fluffy.is_casting = false;
+
 local function update_spell_started(spellID)
 
 	local t = GetTime();
@@ -866,6 +877,8 @@ local function parse_combat_event(log_message)
 	local src = log_message[4];
 
     if src == fluffy.player_id then
+
+		local current_casting_info = fluffy.is_casting;
 		
 		local spell_id = log_message[12];
 
@@ -894,6 +907,7 @@ local function parse_combat_event(log_message)
 			current_auto_start =  GetTime();
 			current_auto_finish = current_auto_start + 0.5 * get_haste_mod_ranged(current_auto_start);
 			fluffy.is_casting_autoshot = true;
+			fluffy.is_casting = true;
 
 			-- print("auto: [" .. current_auto_start - fluffy.ability_autoshot["next_start"] .. "] [" .. current_auto_finish - fluffy.ability_autoshot["next_fired"].. "]" );
 
@@ -921,11 +935,15 @@ local function parse_combat_event(log_message)
 			fluffy.ability_autoshot["fired"] = current_auto_finish;
 			fluffy.ability_autoshot["next_start"] = current_auto_start;
 			fluffy.ability_autoshot["next_fired"] = current_auto_finish;
+		elseif event == "SPELL_CAST_START" then
+			
+			fluffy.is_casting = true;
 	
 		elseif event == "SPELL_CAST_SUCCESS" and log_message[12] == fluffy.spell_id_auto then
 
 			current_auto_finish = GetTime();
 			fluffy.is_casting_autoshot = false;
+			fluffy.is_casting = false;
 
 			local curr_haste = get_haste_mod_ranged(current_auto_finish);
 			local curr_speed = fluffy.ranged_base_speed * curr_haste;
@@ -942,14 +960,55 @@ local function parse_combat_event(log_message)
 			
 			print_debug("WPN SPEED: " .. string.format("%5.3f", fluffy.ranged_base_speed) .. " -> " .. string.format("%5.3f", curr_speed));
 			
+		elseif event == "SPELL_CAST_SUCCESS" then
+
+			fluffy.is_casting = false;
 
 		elseif event == "SPELL_CAST_FAILED" and log_message[12] == fluffy.spell_id_auto then
 			fluffy.is_casting_autoshot = false;
+			fluffy.is_casting = false;
+
+		elseif event == "SPELL_CAST_FAILED" then
+			
+			fluffy.is_casting = false;
+
+		elseif event == "SPELL_CAST_INTERRUPTED" then
+			
+			fluffy.is_casting = false;
+
 			-- current_auto_start =  0;
 			-- current_auto_finish = 0;
 		-- elseif log_message[12] == fluffy.spell_id_auto then
 		-- 	print("AS[" .. log_message[2] .. "]: " .. log_message[1]);
 		end
+
+		if current_casting_info ~= fluffy.is_casting then
+			local CR = FluffyDBPC["color_raptor"];
+			local CM = FluffyDBPC["color_melee"];
+
+			if fluffy.is_casting then
+
+				for A, v in pairs(fluffy.ability_raptorstrike["bars"]) do
+					v.texture:SetColorTexture(CR[1]/255, CR[2]/255, CR[3]/255, CR[4]*0.5);
+				end
+
+				for A, v in pairs(fluffy.ability_meleestrike["bars"]) do
+					v.texture:SetColorTexture(CM[1]/255, CM[2]/255, CM[3]/255, CM[4]*0.5);
+				end
+
+			else
+				for A, v in pairs(fluffy.ability_raptorstrike["bars"]) do
+					v.texture:SetColorTexture(CR[1]/255, CR[2]/255, CR[3]/255, CR[4]);
+				end
+
+				for A, v in pairs(fluffy.ability_meleestrike["bars"]) do
+					v.texture:SetColorTexture(CM[1]/255, CM[2]/255, CM[3]/255, CM[4]);
+				end
+			end
+
+		end
+
+
     end
 end
 
@@ -968,7 +1027,6 @@ fluffy_frame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
 fluffy_frame:SetScript("OnEvent",
     function(self, event, arg1, arg2, arg3, arg4)
 
-		
 		if event == "UNIT_SPELLCAST_SUCCEEDED" and arg1 == "player" then
 			update_spell_finished(arg3);
 
@@ -1007,5 +1065,6 @@ fluffy_frame:SetScript("OnEvent",
 		-- 	end
 		
 		end
+
     end
 );

@@ -5,7 +5,6 @@ local last_update = 0;
 fluffy.autoshot_sparks = {};
 
 local function get_point_of_equilibrium_autoshot(A, ats, ate)
-    -- (t_equi_steady2auto + 1.5*h - t_ready_auto) * dps_auto =  (t_ready_auto + 0.5*h - t_ready_steady) * dps_steady
 
     local h = (ate - ats) * 2;
     local d_A = A["dmg"]();
@@ -363,7 +362,7 @@ function analyze_game_state(window_len)
 
 
     local t = GetTime();
-    if  fluffy.update_frequency_val * (t - last_update) < 1 then
+    if  FluffyDBPC["update"][1] * (t - last_update) < 1 then
         return;
     end
     last_update = t;
@@ -450,7 +449,8 @@ function analyze_game_state(window_len)
     --     table.insert(abilities_to_consider, fluffy.ability_raptorstrike);
     -- end
 
-    if fluffy.ability_arcaneshot["known"] and IsUsableSpell(fluffy.ability_arcaneshot["active_id"]) then
+    local _, low_mana_arcane = IsUsableSpell(fluffy.ability_arcaneshot["active_id"]);
+    if fluffy.ability_arcaneshot["known"] and not low_mana_arcane then
         table.insert(abilities_to_consider, fluffy.ability_arcaneshot);
         if intervals_abilities_starts[fluffy.ability_arcaneshot] == nil then
             intervals_abilities_starts[fluffy.ability_arcaneshot] = {};
@@ -460,7 +460,8 @@ function analyze_game_state(window_len)
         end
     end
 
-    if fluffy.ability_multishot["known"] and IsUsableSpell(fluffy.ability_multishot["active_id"]) then
+    local _, low_mana_multi = IsUsableSpell(fluffy.ability_multishot["active_id"]);
+    if fluffy.ability_multishot["known"] and not low_mana_multi then
         table.insert(abilities_to_consider, fluffy.ability_multishot);
         if intervals_abilities_starts[fluffy.ability_multishot] == nil then
             intervals_abilities_starts[fluffy.ability_multishot] = {};
@@ -470,7 +471,8 @@ function analyze_game_state(window_len)
         end
     end
 
-    if fluffy.ability_steadyshot["known"] and IsUsableSpell(fluffy.ability_steadyshot["active_id"]) then
+    local _, low_mana_steady = IsUsableSpell(fluffy.ability_steadyshot["active_id"]);
+    if fluffy.ability_steadyshot["known"] and not low_mana_steady then
         table.insert(abilities_to_consider, fluffy.ability_steadyshot);
         if intervals_abilities_starts[fluffy.ability_steadyshot] == nil then
             intervals_abilities_starts[fluffy.ability_steadyshot] = {};

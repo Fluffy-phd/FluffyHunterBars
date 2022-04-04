@@ -14,8 +14,6 @@ fluffy.color_meleestrike = {213, 216, 220, 0.9};
 fluffy.autoshot_spark_width = 2;
 -- {red [0 - 255], green[0 - 255], blue[0 - 255], alpha[0 - 1]}
 fluffy.autoshot_spark_color = {255, 255, 255, 1};
--- {red [0 - 255], green[0 - 255], blue[0 - 255], alpha[0 - 1]}
-fluffy.forbidden_movement_bar_color = {255, 0, 0, 0.0};
 -- 0: shown, 1: hidden
 fluffy.autoshot_tracker_hidden = 0;
 

@@ -22,7 +22,6 @@ local function get_arrow_dps(tooltip_text)
 				break;
 			end
 		end
-
 	end
 
 	return out;
@@ -59,22 +58,12 @@ function update_ammo_stats()
 					ammo_dps = get_arrow_dps(AmmoTooltipTextLeft4:GetText());
 				end
 				
-
-				if ammo_dps > 0 then
-					FluffyDBPC["ammo"][item_id] = ammo_dps;
-					-- print("Fluffy Hunter Bars detected new ammo type:" .. itemName .. " with " .. ammo_dps .. " dps");
-				end
+				FluffyDBPC["ammo"][item_id] = ammo_dps;
 			end
 		
 			tooltip_ammo:Hide();
 		end
 
-		if FluffyDBPC["ammo"][item_id] <= 0.005 then
-			FluffyDBPC["ammo"][item_id] = nil;
-			-- update_ammo_stats();
-			return;
-		end
-	
 		fluffy.ammo_dps = FluffyDBPC["ammo"][item_id];
 	end
 
