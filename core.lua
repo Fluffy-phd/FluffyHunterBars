@@ -28,19 +28,19 @@ local function print_help(msg)
 	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."lock|r' |c"..fluffy.msg_color_caution.."prevents|r the UI elements from being draggable");
 	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."unlock|r' |c"..fluffy.msg_color_caution.."allows|r the UI elements to be moved by mouse");
 	print("------------------");
-	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."color auto|r |c"..fluffy.msg_color_caution.."R G B A|r' sets the color and alpha of the |c"..fluffy.msg_color_info.."'Auto Shot'|r cast window");
-	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."color spark|r |c"..fluffy.msg_color_caution.."R G B A|r' sets the color and alpha of the |c"..fluffy.msg_color_info.."'Auto Shot indicator'|r");
-	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."color arcane|r |c"..fluffy.msg_color_caution.."R G B A|r' sets the color and alpha of the |c"..fluffy.msg_color_info.."'Arcane Shot'|r recommendation window");
-	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."color steady|r |c"..fluffy.msg_color_caution.."R G B A|r' sets the color and alpha of the |c"..fluffy.msg_color_info.."'Steady Shot'|r recommendation window");
-	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."color multi|r |c"..fluffy.msg_color_caution.."R G B A|r' sets the color and alpha of the |c"..fluffy.msg_color_info.."'Multi-Shot'|r recommendation window");
-	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."color raptor|r |c"..fluffy.msg_color_caution.."R G B A|r' sets the color and alpha of the |c"..fluffy.msg_color_info.."'Raptor Strike'|r window");
-	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."color melee|r |c"..fluffy.msg_color_caution.."R G B A|r' sets the color and alpha of the |c"..fluffy.msg_color_info.."'Auto Attack'|r window");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."color_auto|r |c"..fluffy.msg_color_caution.."R G B A|r' sets the color and alpha of the |c"..fluffy.msg_color_info.."'Auto Shot'|r cast window");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."color_spark|r |c"..fluffy.msg_color_caution.."R G B A|r' sets the color and alpha of the |c"..fluffy.msg_color_info.."'Auto Shot indicator'|r");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."color_arcane|r |c"..fluffy.msg_color_caution.."R G B A|r' sets the color and alpha of the |c"..fluffy.msg_color_info.."'Arcane Shot'|r recommendation window");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."color_steady|r |c"..fluffy.msg_color_caution.."R G B A|r' sets the color and alpha of the |c"..fluffy.msg_color_info.."'Steady Shot'|r recommendation window");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."color_multi|r |c"..fluffy.msg_color_caution.."R G B A|r' sets the color and alpha of the |c"..fluffy.msg_color_info.."'Multi-Shot'|r recommendation window");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."color_raptor|r |c"..fluffy.msg_color_caution.."R G B A|r' sets the color and alpha of the |c"..fluffy.msg_color_info.."'Raptor Strike'|r window");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."color_melee|r |c"..fluffy.msg_color_caution.."R G B A|r' sets the color and alpha of the |c"..fluffy.msg_color_info.."'Auto Attack'|r window");
 	print("------------------");
 	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."spark|r |c"..fluffy.msg_color_caution.."n|r' sets the width of the autoshot indicator in pixels");
 	print("------------------");
-	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."use arcane|r' |c"..fluffy.msg_color_caution.." toggles|r displaying recommendations for |c"..fluffy.msg_color_info.."'Arcane Shot'|r");
-	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."use multi|r' |c"..fluffy.msg_color_caution.." toggles|r displaying recommendations for |c"..fluffy.msg_color_info.."'Multi-Shot'|r");
-	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."use melee|r' |c"..fluffy.msg_color_caution.." toggles|r displaying recommendations for |c"..fluffy.msg_color_info.."'Melee abilities'|r");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."use_arcane|r' |c"..fluffy.msg_color_caution.." toggles|r displaying recommendations for |c"..fluffy.msg_color_info.."'Arcane Shot'|r");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."use_multi|r' |c"..fluffy.msg_color_caution.." toggles|r displaying recommendations for |c"..fluffy.msg_color_info.."'Multi-Shot'|r");
+	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."use_melee|r' |c"..fluffy.msg_color_caution.." toggles|r displaying recommendations for |c"..fluffy.msg_color_info.."'Melee abilities'|r");
 	print("------------------");
 	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."incombat|r' |c"..fluffy.msg_color_caution.." toggles|r displaying the bars only in combat");
 	print("'|c"..fluffy.msg_color_ok.."/fluffy|r |c"..fluffy.msg_color_info.."length|r |c"..fluffy.msg_color_caution.."n|r' sets the bar length to show recommendations 'n' seconds into the future");
@@ -103,6 +103,71 @@ function print_info_locked()
 	print("|c"..fluffy.msg_color_ok.."Fluffy Hunter Bars|r [|c"..fluffy.msg_color_info.."locked|r] = " .. (FluffyDBPC["locked"][1] and "yes" or "no"));
 end
 
+function print_info_colors()
+	print("|c"..fluffy.msg_color_ok.."Fluffy Hunter Bars|r [|c"..fluffy.msg_color_info.."colors|r]");
+	local r = FluffyDBPC["color_auto"][1]
+	local g = FluffyDBPC["color_auto"][2]
+	local b = FluffyDBPC["color_auto"][3]
+	local a = FluffyDBPC["color_auto"][4]
+	print("|c"..fluffy.ConvertColorsToCode(r, g, b, a).."Auto Shot Cast|r = (" .. r .. ", " .. g .. ", " .. b .. ", " .. a .. ")");
+
+	local r = FluffyDBPC["color_spark"][1]
+	local g = FluffyDBPC["color_spark"][2]
+	local b = FluffyDBPC["color_spark"][3]
+	local a = FluffyDBPC["color_spark"][4]
+	print("|c"..fluffy.ConvertColorsToCode(r, g, b, a).."Auto Shot Spark|r = (" .. r .. ", " .. g .. ", " .. b .. ", " .. a .. ")");
+	
+	local r = FluffyDBPC["color_arcane"][1]
+	local g = FluffyDBPC["color_arcane"][2]
+	local b = FluffyDBPC["color_arcane"][3]
+	local a = FluffyDBPC["color_arcane"][4]
+	print("|c"..fluffy.ConvertColorsToCode(r, g, b, a).."Arcane Shot|r = (" .. r .. ", " .. g .. ", " .. b .. ", " .. a .. ")");
+	
+	local r = FluffyDBPC["color_multi"][1]
+	local g = FluffyDBPC["color_multi"][2]
+	local b = FluffyDBPC["color_multi"][3]
+	local a = FluffyDBPC["color_multi"][4]
+	print("|c"..fluffy.ConvertColorsToCode(r, g, b, a).."Multi-Shot|r = (" .. r .. ", " .. g .. ", " .. b .. ", " .. a .. ")");
+	
+	local r = FluffyDBPC["color_steady"][1]
+	local g = FluffyDBPC["color_steady"][2]
+	local b = FluffyDBPC["color_steady"][3]
+	local a = FluffyDBPC["color_steady"][4]
+	print("|c"..fluffy.ConvertColorsToCode(r, g, b, a).."Steady Shot|r = (" .. r .. ", " .. g .. ", " .. b .. ", " .. a .. ")");
+	
+	local r = FluffyDBPC["color_raptor"][1]
+	local g = FluffyDBPC["color_raptor"][2]
+	local b = FluffyDBPC["color_raptor"][3]
+	local a = FluffyDBPC["color_raptor"][4]
+	print("|c"..fluffy.ConvertColorsToCode(r, g, b, a).."Raptor Strike|r = (" .. r .. ", " .. g .. ", " .. b .. ", " .. a .. ")");
+	
+	local r = FluffyDBPC["color_melee"][1]
+	local g = FluffyDBPC["color_melee"][2]
+	local b = FluffyDBPC["color_melee"][3]
+	local a = FluffyDBPC["color_melee"][4]
+	print("|c"..fluffy.ConvertColorsToCode(r, g, b, a).."Melee Hit|r = (" .. r .. ", " .. g .. ", " .. b .. ", " .. a .. ")");
+	
+end
+
+function print_info_spark()
+	print("|c"..fluffy.msg_color_ok.."Fluffy Hunter Bars|r [|c"..fluffy.msg_color_info.."Auto Shot Spark width|r] = " .. FluffyDBPC["spark_width"] .. " pixels");
+end
+
+function print_info_abilities()
+	print("|c"..fluffy.msg_color_ok.."Fluffy Hunter Bars|r [|c"..fluffy.msg_color_info.."Show Abilities|r]");
+	print("|c"..fluffy.msg_color_info.."Arcane Shot|r = " .. (FluffyDBPC["consider_arcane"][1] and "yes" or "no"));
+	print("|c"..fluffy.msg_color_info.."Multi-Shot|r = " .. (FluffyDBPC["consider_multi"][1] and "yes" or "no"));
+	print("|c"..fluffy.msg_color_info.."Melee|r = " .. (FluffyDBPC["consider_melee"][1] and "yes" or "no"));
+end
+
+function print_info_combat()
+	print("|c"..fluffy.msg_color_ok.."Fluffy Hunter Bars|r [|c"..fluffy.msg_color_info.."Show only in combat|r] = " .. (FluffyDBPC["show_only_in_combat"][1] and "yes" or "no"));
+end
+
+function print_info_length()
+	print("|c"..fluffy.msg_color_ok.."Fluffy Hunter Bars|r [|c"..fluffy.msg_color_info.."Future length|r] = " .. FluffyDBPC["window_length"] .. " [s]");
+end
+
 function print_info()
 	print_info_position();
 	print_info_width();
@@ -112,6 +177,11 @@ function print_info()
 	print_info_update_freqency();
 	print_info_hidden();
 	print_info_locked();
+	print_info_colors();
+	print_info_spark();
+	print_info_abilities();
+	print_info_combat();
+	print_info_length();
 end
 
 function reset()
@@ -263,6 +333,32 @@ SlashCmdList["FLUFFY_BAR"] = function(msg)
 			print_help(msg);
 			return;
 		end
+	elseif cmd == "color_auto" and nargs == 4 then
+		FluffyDBPC["color_auto"] = {tonumber(args[1]), tonumber(args[2]), tonumber(args[3]), tonumber(args[4])};
+	elseif cmd == "color_spark" and nargs == 4 then
+		FluffyDBPC["color_spark"] = {tonumber(args[1]), tonumber(args[2]), tonumber(args[3]), tonumber(args[4])};
+	elseif cmd == "color_arcane" and nargs == 4 then
+		FluffyDBPC["color_arcane"] = {tonumber(args[1]), tonumber(args[2]), tonumber(args[3]), tonumber(args[4])};
+	elseif cmd == "color_steady" and nargs == 4 then
+		FluffyDBPC["color_steady"] = {tonumber(args[1]), tonumber(args[2]), tonumber(args[3]), tonumber(args[4])};
+	elseif cmd == "color_multi" and nargs == 4 then
+		FluffyDBPC["color_multi"] = {tonumber(args[1]), tonumber(args[2]), tonumber(args[3]), tonumber(args[4])};
+	elseif cmd == "color_raptor" and nargs == 4 then
+		FluffyDBPC["color_raptor"] = {tonumber(args[1]), tonumber(args[2]), tonumber(args[3]), tonumber(args[4])};
+	elseif cmd == "color_melee" and nargs == 4 then
+		FluffyDBPC["color_melee"] = {tonumber(args[1]), tonumber(args[2]), tonumber(args[3]), tonumber(args[4])};
+	elseif cmd == "spark" and nargs == 1 then
+		FluffyDBPC["spark_width"] = tonumber(args[1]);
+	elseif cmd == "use_arcane" and nargs == 0 then
+		FluffyDBPC["consider_arcane"][1] = not FluffyDBPC["consider_arcane"][1]
+	elseif cmd == "use_multi" and nargs == 0 then
+		FluffyDBPC["consider_multi"][1] = not FluffyDBPC["consider_multi"][1]
+	elseif cmd == "use_melee" and nargs == 0 then
+		FluffyDBPC["consider_melee"][1] = not FluffyDBPC["consider_melee"][1]
+	elseif cmd == "incombat" and nargs == 0 then
+		FluffyDBPC["show_only_in_combat"][1] = not FluffyDBPC["show_only_in_combat"][1]
+	elseif cmd == "length" and nargs == 1 then
+		FluffyDBPC["window_length"] = tonumber(args[1]);
 	else
 		print_help(msg);
 	end
@@ -272,9 +368,12 @@ local variables_frame = CreateFrame("FRAME");
 variables_frame:RegisterEvent("ADDON_LOADED");
 function variables_frame:OnEvent(event, name )
 
-	fluffy.time_loaded = GetTime() + 5;
+	fluffy.time_loaded = GetTime() + 2;
 
 	if event == "ADDON_LOADED" and name == "FluffyHunterBars" then
+		
+		fluffy.time_loaded = GetTime() + 5;
+
 		local _, _, cid = UnitClass("player");
 		if cid == 3 then
 			fluffy.is_player_hunter = true;
@@ -430,7 +529,7 @@ fluffy_frame_loading:RegisterEvent("PLAYER_ENTERING_WORLD");
 fluffy_frame_loading:SetScript("OnEvent",
     function(self, event)
 		if event == "PLAYER_LEAVING_WORLD" then
-			fluffy.time_loaded = GetTime() + 60;
+			fluffy.time_loaded = GetTime() + 5;
 		elseif event == "PLAYER_ENTERING_WORLD" then
 			fluffy.time_loaded = GetTime() + 5;
 		end

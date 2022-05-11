@@ -3,6 +3,9 @@ local _, fluffy = ...
 local last_update = 0;
 
 fluffy.autoshot_sparks = {};
+local show_steady = false;
+local show_multi = false;
+local show_arcane = false;
 
 local function get_point_of_equilibrium_autoshot(A, ats, ate)
 
@@ -448,9 +451,13 @@ function analyze_game_state(window_len)
     -- if fluffy.ability_raptorstrike["known"] and (can_consider_melee(fluffy.ability_raptorstrike["forbid"]) and IsUsableSpell(fluffy.ability_raptorstrike["active_id"])) then
     --     table.insert(abilities_to_consider, fluffy.ability_raptorstrike);
     -- end
+    show_steady = (fluffy.ability_steadyshot["known"] and not low_mana_steady);
+    show_multi = (fluffy.ability_multishot["known"] and not low_mana_multi);
+    show_arcane = (fluffy.ability_arcaneshot["known"] and not low_mana_arcane);
+    
 
     local _, low_mana_arcane = IsUsableSpell(fluffy.ability_arcaneshot["active_id"]);
-    if fluffy.ability_arcaneshot["known"] and not low_mana_arcane then
+    if show_arcane then
         table.insert(abilities_to_consider, fluffy.ability_arcaneshot);
         if intervals_abilities_starts[fluffy.ability_arcaneshot] == nil then
             intervals_abilities_starts[fluffy.ability_arcaneshot] = {};
@@ -461,7 +468,7 @@ function analyze_game_state(window_len)
     end
 
     local _, low_mana_multi = IsUsableSpell(fluffy.ability_multishot["active_id"]);
-    if fluffy.ability_multishot["known"] and not low_mana_multi then
+    if show_multi then
         table.insert(abilities_to_consider, fluffy.ability_multishot);
         if intervals_abilities_starts[fluffy.ability_multishot] == nil then
             intervals_abilities_starts[fluffy.ability_multishot] = {};
@@ -472,7 +479,7 @@ function analyze_game_state(window_len)
     end
 
     local _, low_mana_steady = IsUsableSpell(fluffy.ability_steadyshot["active_id"]);
-    if fluffy.ability_steadyshot["known"] and not low_mana_steady then
+    if show_steady then
         table.insert(abilities_to_consider, fluffy.ability_steadyshot);
         if intervals_abilities_starts[fluffy.ability_steadyshot] == nil then
             intervals_abilities_starts[fluffy.ability_steadyshot] = {};

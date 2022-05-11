@@ -5,7 +5,7 @@
 
 
 ## Author: Fluffydork of Nethergarde Keep (EU)
-## Version: 2.1.0
+## Version: 2.2.0
 
 ## X-Category: Combat
 
@@ -14,7 +14,6 @@
 ## SavedVariablesPerCharacter: FluffyDBPC
 
 # helper files
-#preamble.config.lua
 preamble.debug.lua
 
 preamble.variables.lua
@@ -42,6 +41,5 @@ equipment_handler.lua
 
 ui.elems.lua
 ui.core.lua
-#ui.config.lua
 core.lua
 

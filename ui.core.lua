@@ -577,7 +577,8 @@ frame_combat_hidden:SetScript("OnUpdate",
 
     function(self, elapsed)
 
-        if FluffyDBPC["show_only_in_combat"][1] ~= 1 then
+        if FluffyDBPC["show_only_in_combat"][1] == false then
+            FluffyBar:Show();
             return;
         end
 

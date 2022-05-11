@@ -97,12 +97,12 @@ fluffy.msg_color_error = "AAFF0000";
 fluffy.bar_len_seconds = 3.4;
 fluffy.movement_spark_interval = 0.5;
 
-fluffy.spell_color_steady = "AAFC9803"; -- 252, 152, 3
-fluffy.spell_color_multi = "AA0386FC"; -- 3, 134, 254
-fluffy.spell_color_arcane = "AAaf7ac5"; -- 175, 122, 197 
-fluffy.spell_color_raptor = "AA27ae60"; --39, 174, 96
-fluffy.spell_color_melee = "AAd5d8dc"; -- 213, 216, 220
-fluffy.spell_color_auto = "AAFF0000"; -- 255, 0, 0
+fluffy.spell_color_steady = "FFFC9803"; -- 252, 152, 3
+fluffy.spell_color_multi = "FF0386FC"; -- 3, 134, 254
+fluffy.spell_color_arcane = "FFaf7ac5"; -- 175, 122, 197 
+fluffy.spell_color_raptor = "FF27ae60"; --39, 174, 96
+fluffy.spell_color_melee = "FFd5d8dc"; -- 213, 216, 220
+fluffy.spell_color_auto = "FFFF0000"; -- 255, 0, 0
 
 fluffy.icon_path_auto = "Interface\\ICONS\\ability_whirlwind";
 fluffy.icon_path_aimed = "Interface\\ICONS\\INV_Spear_07";
