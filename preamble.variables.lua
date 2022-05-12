@@ -2,7 +2,7 @@ local _, fluffy = ...
 
 fluffy.is_casting_autoshot = false;
 
-fluffy.current_addon_version = 205;
+fluffy.current_addon_version = 220;
 fluffy.client_version = 0;
 fluffy.is_player_hunter = false;
 fluffy.player_id = nil;

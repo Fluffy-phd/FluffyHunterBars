@@ -576,6 +576,9 @@ local combat_status_last_update = 0;
 frame_combat_hidden:SetScript("OnUpdate",
 
     function(self, elapsed)
+        if fluffy.is_player_hunter == false or fluffy.is_player_hunter == nil then
+            return;
+        end
 
         if FluffyDBPC["show_only_in_combat"][1] == false then
             FluffyBar:Show();
